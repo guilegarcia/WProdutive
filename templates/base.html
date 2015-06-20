@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+    {% block imports %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/js/checkbox-tarefa.js"></script>
+
+
+
+        <!-- Script Checkbox tarefa
+        <script>
+            // Mudou o change (precisa ativar o trigger)
+            function mudou() {
+                alert('Teste');
+                var id = $(this).attr("idTarefa");
+                if ($(this).prop('checked')) {
+                    $.post("/alterar-status/", {id: id, estado: "marcado"}, (function (alterouTarefa) {
+                                $("#tabelaTarefas").load(location.href + " #tabelaTarefas>*", function () {
+                                    $('.checkTarefa').change(mudou);
+                                });
+                                $(".progress").load(location.href + " .progress");
+                                $('#resultado').html(alterouTarefa)
+                            })
+                    );
+                } else {
+                    $.post("alterar-status/", {id: id, estado: "desmarcado"}, (function (alterouTarefa) {
+                                $("#tabelaTarefas").load(location.href + " #tabelaTarefas>*", function () {
+                                    $('.checkTarefa').change(mudou);
+                                });
+                                $(".progress").load(location.href + " .progress");
+                                $('#resultado').html(alterouTarefa)
+                            })
+                    );
+                }
+            }
+            $(document).ready(function () {
+                $('.checkTarefa').change(mudou);
+            });
+        </script>
+        <!-- Fim Script Checkbox tarefa -->
+
+        <!-- Atalhos teclado -->
+        <script>
+            $(document).ready(function () {
+                $(document).keydown(function (event) {
+                    // Ctrl+alt+T (Tarefa)
+                    if ((event.ctrlKey) && (event.altKey) && event.keyCode == 84) {
+                        event.preventDefault();
+                        $('#criarTarefa').modal('show');
+                    }
+                    // Ctrl+alt+P (Papel)
+                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 80) {
+                        event.preventDefault();
+                        $('#criarPapel').modal('show');
+                    }
+                    // Ctrl+alt+L (Lembrete)
+                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 76) {
+                        event.preventDefault();
+                        $('#criarLembrete').modal('show');
+                    }
+                    // Ctrl+alt+O (Projeto)
+                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 79) {
+                        event.preventDefault();
+                        $('#criarProjeto').modal('show');
+                    }
+                });
+            });
+        </script>
+        <!-- fim Atalhos teclado -->
+        <style>
+            .modal.in {display: block}
+            .espaco{margin-left: 2px}
+            .titulo-tarefa{max-width:260px;display: inline-block;}
+        </style>
+    {% endblock imports %}
+
+    {% block title %}
+        <title>WebProdutive</title>
+    {% endblock title %}
+</head>
+<body>
+{% block menu-topo %}
+    <div class="navbar navbar-inverse navbar-static-top">
+        <!-- Inic�o do menu topo -->
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" contenteditable="true">WebProdutive</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-left navbar-nav">
+                    <!-- <li class="">
+                        <a href="#"><span class="glyphicon glyphicon-home"></span> Inicio</a>
+                    </li> -->
+                    <li class="{{ dia_active }}">
+                        <a href="/"><span class="glyphicon glyphicon-list"></span> Tarefas</a>
+                    </li>
+                    <li class="{{ semana_active }}">
+                        <a href="{% url 'semana' %}"><span class="glyphicon glyphicon-calendar"></span> Semana</a>
+                    </li>
+                    <!-- Papeis -->
+                    <li class="dropdown {{ papel_active }}">
+                        <a href="{% url 'papeis' %}" data-toggle="dropdown" class="dropdown-toggle disabled"><span class="glyphicon glyphicon-user"></span> Papéis </a>
+                    </li>
+                    <!-- Projetos -->
+                    <li class="dropdown {{ projeto_active }}">
+                        <a href="{% url 'projetos' %}" data-toggle="dropdown" class="dropdown-toggle disabled"><span class="glyphicon glyphicon-list-alt"></span> Projetos </a>
+                    </li>
+                </ul>
+                <!-- Perfil Dropdown -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i
+                                class="glyphicon glyphicon-user"></i> {{ user.first_name }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'editar_perfil' %}"><i class="glyphicon glyphicon-user"></i> Editar perfil</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/logout/"><i class="glyphicon glyphicon-log-out"></i> Sair</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- fim Perfil Dropdown -->
+                <!-- Buscador -->
+                <div class="col-sm-3 col-md-3 pull-right">
+                    <form action="{% url 'buscar_tarefas' %}" class="navbar-form" role="search" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Busca por tarefa.." name="s">
+
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- fim Buscador -->
+            </div>
+            <!-- fim Menu do topo -->
+        </div>
+    </div>
+{% endblock menu-topo %}
+
+{% block corpo %}
+    <!-- body -->
+{% endblock corpo %}
+
+</body>
+</html>

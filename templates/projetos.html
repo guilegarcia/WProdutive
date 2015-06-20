@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Projetos - WebProdutive</title>
+{% endblock title %}
+
+{% block corpo %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li><a href="/">Início</a></li>
+                    <li class="active">Projetos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Mensagem Django -->
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}  alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <!-- Botão adicionar -->
+                {% include 'includes/botao-adicionar.html' %}
+                <!-- fim Botão adicionar -->
+
+                <h1>Lista de projetos</h1>
+                <ul class="list-group col-md-8">
+                    {% for projeto in request.session.lista_projetos %}
+                        <li class="list-group-item">
+                            <form action="{% url 'editar_projeto' %}" method="get" role="form">
+                                <a href="{% url 'projeto' projeto.id %}" title="{{ projeto.nome }}">{{ projeto.nome }}</a>
+                                <a href="{% url 'excluir_projeto' projeto.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Editar projeto!"><span class="glyphicon glyphicon-pencil"></span></a>
+
+                                <button type="submit" name="id" value="{{ projeto.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                            </form>
+                        </li>
+                        {% empty %}
+                            <p class="text-warning">Não há projetos disponíveis. <a href="#" data-toggle="modal" data-target="#criarProjeto">Adicione o primeiro!</a></p>
+                    {% endfor %}
+                </ul>
+                <!-- fim Lista projetos -->
+            </div>
+        </div>
+        <hr>
+        {% with url='projetos.html'  %}
+        {% include 'includes/modals.html' %}
+        {% endwith %}
+
+    </div>
+{% endblock corpo %}

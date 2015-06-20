@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Tarefas do dia - WebProdutive</title>
+{% endblock title %}
+
+{% block corpo %}
+    <div class="container">
+        <div class="col-md-12">
+            <!-- Breadcrumb -->
+            <div class="row">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">Início</a>
+                    </li>
+                    <li class="active">Tarefas do dia</li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <!-- Exibe resultado da alteração da tarefa -->
+                <!-- TODO (aparece o 'x' de fechar' e o sucess alerte sempre) * imprimir este código via jquery -->
+                <div class="alert alert-success  alert-dismissable" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div id="resultado"></div>
+                </div>
+
+                <!-- Mensagens do form (msg) -->
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}  alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <!-- Botão adicionar -->
+                {% include 'includes/botao-adicionar.html' %}
+                <!-- fim Botão adicionar -->
+            </div>
+            <!-- Próximo dia e Anterior « -->
+            <div class="row">
+                <ul class="pager">
+                    <div class="pull-left">
+                        <!-- Próximo -->
+                        <form action="/" method="post" role="form">{% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="anterior"/>
+                            <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">« Dia anterior</button>
+                            </li>
+                        </form>
+                    </div>
+                    <div class="pull-right">
+                        <!-- Anterior -->
+                        <form action="/" method="post" role="form">{% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="proximo"/>
+                            <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">Próximo dia »</button>
+                            </li>
+                        </form>
+                    </div>
+                </ul>
+            </div>
+            <!-- Fim próximo dia Anteior -->
+            <br/>
+            <!-- Tarefas do dia -->
+            <div class="row">
+                <!-- teste Lembretes -->
+                {% if lista_lembretes %}
+                    <table class="table table-striped table-condensed">
+                        <tbody>
+                        {% for lembrete in lista_lembretes %}
+                            <tr>
+                                <td>{{ lembrete.titulo }}</td>
+                                <td><a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs" title="Excluir lembrete"><span class="glyphicon glyphicon-trash"></span></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <thead>
+                        <tr>
+                            <th class="col-sm-11">Lembretes</th>
+                            <th class="col-sm-1">Excluir</th>
+                        </tr>
+                        </thead>
+                    </table>
+                {% endif %}
+                <!-- fim teste Lembretes-->
+
+                <h3>Tarefas
+                    <small>{{ data }}</small>
+                </h3>
+                <table class="table table-condensed table-hover table-striped">
+                    <tbody id="tabelaTarefas">
+                    <!-- Lista Tarefas -->
+                    {% for tarefa in lista_tarefas %}
+                        <tr>
+                            <!-- PENDENTES -->
+                            {% if tarefa.status == 0 %}
+                                <td><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</td>
+                                <td>{{ tarefa.duracao|default_if_none:"0:00:00" }}</td>
+                                <td>
+                                    {{ tarefa.data|date:'Y-m-d' }}
+                                </td>
+                                <td>
+                                    {{ tarefa.hora|time:'H:i' }}
+                                </td>
+
+                                {% if tarefa.projeto.nome %}
+                                    <td>{{ tarefa.projeto.nome }}</td>
+                                {% else %}
+                                    <td>Nenhum</td>
+                                {% endif %}
+
+                                {% if tarefa.papel.nome %}
+                                    <td>{{ tarefa.papel.nome }}</td>
+                                {% else %}
+                                    <td>Nenhum</td>
+                                {% endif %}
+
+                            {% endif %}
+
+                            <!-- CONCLUÍDAS -->
+                            {% if tarefa.status == 1 %}
+                                <td><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}" checked/>
+                                    <del>{{ tarefa.titulo }}</del>
+                                </td>
+                                <td>{{ tarefa.duracao|default_if_none:"0:00:00" }}</td>
+                                <td>
+                                    <del>
+                                        {{ tarefa.data|date:'Y-m-d' }}
+                                    </del>
+                                </td>
+                                <td>
+                                    <del>
+                                        {{ tarefa.hora|time:'H:i' }}
+                                    </del>
+                                </td>
+
+                                {% if tarefa.projeto.nome %}
+                                    <td><del>{{ tarefa.projeto.nome }}</del></td>
+                                {% else %}
+                                    <td><del>Nenhum</del></td>
+                                {% endif %}
+
+                                {% if tarefa.papel.nome %}
+                                    <td><del>{{ tarefa.papel.nome }}</del></td>
+                                {% else %}
+                                    <td><del>Nenhum</del></td>
+                                {% endif %}
+
+                            {% endif %}
+
+                            <!-- ATRASADAS -->
+                            {% if tarefa.status == 2 %}
+                                <td><p class="text-danger"><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</p></td>
+                                <td><p class="text-danger">{{ tarefa.duracao|default_if_none:"0:00:00" }}</p></td>
+                                <td>
+                                    <p class="text-danger">
+                                        {{ tarefa.data|date:'Y-m-d'  }}
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="text-danger">
+                                        {{ tarefa.hora|time:"H:i" }}
+                                    </p>
+                                </td>
+
+                                {% if tarefa.projeto.nome %}
+                                    <td><p class="text-danger">{{ tarefa.projeto.nome }}</p></td>
+                                {% else %}
+                                    <td><p class="text-danger">Nenhum</p></td>
+                                {% endif %}
+
+                                {% if tarefa.papel.nome %}
+                                    <td><p class="text-danger">{{ tarefa.papel.nome }}</p></td>
+                                {% else %}
+                                    <td><p class="text-danger">Nenhum</p></td>
+                                {% endif %}
+
+                            {% endif %}
+                            <!-- fim ATRASADAS -->
+
+                            <!-- fim Verifica se a tarefa está concluída -->
+                            <!-- Botões Editar e Remover -->
+                            <td>
+                                <form action="{% url 'editar_tarefa' %}" method="get" role="form">
+                                    <input type="hidden" name="url" value="dia.html" />
+                                    <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs" title="Excluir tarefa!"><span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                            <!-- Fim Botões Editar e Remover -->
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td><strong>{{ total_duracao }}</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- fim Lista Tarefas-->
+                    </tbody>
+                    <thead>
+                    <tr>
+                        <th class="col-sm-4"># Título</th>
+                        <th class="col-sm-1">Duração</th>
+                        <th class="col-sm-1">Data</th>
+                        <th class="col-sm-1">Hora</th>
+                        <th class="col-sm-2">Projeto</th>
+                        <th class="col-sm-2">Papel</th>
+                        <th class="col-sm-1">Editar</th>
+                        <th class="col-sm-1">Deletar</th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <!-- Progresso bar -->
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progresso }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progresso }};">
+                        {{ progresso }}
+                    </div>
+                </div>
+                <!-- fim progresso bar -->
+                <hr>
+                <!-- Seta a página que chamou o modal -->
+
+                <!-- Importa todos os modals -->
+                {% with url='dia.html'  %}
+                {% include 'includes/modals.html' %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+{% endblock corpo %}

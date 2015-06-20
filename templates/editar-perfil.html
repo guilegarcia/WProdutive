@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Editar perfil - {{ user.username }}</title>
+{% endblock title %}
+{% block corpo %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="/">Início</a>
+                    </li>
+                    <li class="active">Editar perfil</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Botão adicionar -->
+                {% include 'includes/botao-adicionar.html' %}
+                <!-- fim Botão adicionar -->
+                <!-- Mensagens do form -->
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}  alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+            <!-- Form boostrap -->
+                <form method="post" action="{% url 'editar_perfil' %}" class="form-horizontal" role="form">
+                    {% csrf_token %}
+                    <legend draggable="true">Cadastro</legend>
+                    <em>* itens obrigatórios!</em>
+
+                    <div class="form-group {%if form.first_name.errors %}has-error{% endif %} col-md-12">
+                        <label for="id_first_name">Nome: <abbr title="Campo obrigatório">*</abbr></label>
+                        {{ form.first_name }}
+                        {% for error in form.first_name.errors  %}
+                            <p class="text-danger">{{ error|escape }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group {%if form.username.errors %}has-error{% endif %} col-md-12">
+                        <label for="id_username">Usuário: <abbr title="Campo obrigatório">*</abbr></label>
+                        {{ form.username }}
+                        {% for error in form.username.errors  %}
+                            <p class="text-danger">{{ error|escape }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {%if form.email.errors %}has-error{% endif %} col-md-10">
+                        <label for="id_email">E-mail: <abbr title="Campo obrigatório">*</abbr></label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <p class="text-danger">{{ error|escape }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group {%if form.password.errors %}has-error{% endif %} col-md-10">
+                        <label for="id_password">Senha: <abbr title="Campo obrigatório">*</abbr></label>
+                        {{ form.password }}
+                        {% for error in form.password.errors %}
+                            <p class="text-danger">{{ error|escape }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group col-md-8">
+                        <button class="btn btn-success" draggable="true">Cadastrar</button>
+                    </div>
+                </form>
+                <!-- fim Form boostrap -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Importa todos os modals -->
+    {% include 'includes/modals.html' %}
+{% endblock corpo %}
