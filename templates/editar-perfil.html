@@ -28,7 +28,8 @@
                 {% endfor %}
 
             <!-- Form boostrap -->
-                <form method="post" action="{% url 'editar_perfil' %}" class="form-horizontal" role="form">
+                <!-- TODO criar form com boostrap direto no código -->
+                <form method="post" action="{% url 'editar_perfil' user.id %}" class="form-horizontal" role="form">
                     {% csrf_token %}
                     <legend draggable="true">Cadastro</legend>
                     <em>* itens obrigatórios!</em>

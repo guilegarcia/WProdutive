@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import CreateView, UpdateView
 from tarefas.forms import TarefaForm
 from tarefas.models import Tarefa
+from usuarios.views import LoginRequiredMixin
 
 
 @login_required()
@@ -15,6 +18,7 @@ def criar_tarefa(request):
             form.save()
             messages.success(request, 'Tarefa adicionada com sucesso')
             # todo atualizar lista da session
+            # todo criar repetições
             return redirect(request.META.get('HTTP_REFERER'))
         else:
             messages.error(request, 'Formulário não é válido!')
@@ -22,7 +26,6 @@ def criar_tarefa(request):
     else:
         form = TarefaForm
         return render(request, 'dia.html', {'form': form})
-
 
 
 @login_required()
@@ -46,6 +49,20 @@ def editar_tarefa(request):
             return redirect(request.META.get('HTTP_REFERER'))
 
     return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True})
+
+#todo criar updateview
+# Usar https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-simple/#django.views.generic.base.TemplateResponseMixin
+class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = Tarefa
+    fields = ['titulo', 'descricao', 'data', 'hora', 'duracao', 'prioridade', 'papel', 'projeto', 'usuario']
+    template_name = 'editar-perfil.html'
+    success_message = 'Usuário atualizado com sucesso!'
+
+    # success_url = '/usuarios/editar-perfil/'
+
+
+
+
 
 @login_required()
 def excluir_tarefa(request, id=None):

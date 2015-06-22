@@ -20,7 +20,7 @@ def criar_papel(request):
             return render(request, request.POST['url'], {'form': form, 'abrir_modal_papel': 'in'})
     else:
         form = FormPapel
-        return render(request, 'dia.html', {'form': form})
+        return render(request, request.POST['url'], {'form': form})
 
 
 # Papeis.html
