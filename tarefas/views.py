@@ -2,7 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 from tarefas.forms import TarefaForm
@@ -33,11 +33,11 @@ def buscar_tarefas(request):
     lista_tarefas = Tarefa.objects.filter(usuario=request.user, titulo__icontains=request.GET['s'])
     return render(request, 'busca.html', {'lista_tarefas_busca': lista_tarefas, 'termo_busca': request.GET['s']})
 
-# TODO Editar Tarefa
 @login_required()
 def editar_tarefa(request):
     if request.method == 'GET':
         tarefa = get_object_or_404(Tarefa, id=request.GET['id'], usuario=request.user)
+        id_tarefa = tarefa.id
         form = TarefaForm(instance=tarefa)
     else:
         form = TarefaForm(request.POST)
@@ -45,12 +45,13 @@ def editar_tarefa(request):
             tarefa = form.save(commit=False)
             tarefa.id = form.cleaned_data['id']
             tarefa.save()
-            messages.success('Tarefa atualizada com sucesso!')
-            return redirect(request.META.get('HTTP_REFERER'))
+            messages.success(request, 'Tarefa atualizada com sucesso!')
+            # todo não está fechando o modal depois de editado
+            return redirect(request.META.get('HTTP_REFERER', None) or '/')
 
-    return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True})
+    return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa':id_tarefa})
 
-#todo criar updateview
+"""
 # Usar https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-simple/#django.views.generic.base.TemplateResponseMixin
 class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Tarefa
@@ -59,8 +60,7 @@ class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     success_message = 'Usuário atualizado com sucesso!'
 
     # success_url = '/usuarios/editar-perfil/'
-
-
+"""
 
 
 

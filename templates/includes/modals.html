@@ -187,8 +187,8 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="hidden" name="usuario" value="{{ user.id }}">
-                            {% if form.id.value %}
-                                <input type="hidden" name="id" value="{{ form.id.value }}">
+                            {% if id_tarefa %}
+                                <input type="hidden" name="id" value="{{ id_tarefa }}">
                             {% endif %}
                             <input type="hidden" name="url" value="{{ url }}">
                             <button type="submit" class="btn btn-success">Cadastrar</button>

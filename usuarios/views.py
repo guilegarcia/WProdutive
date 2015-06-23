@@ -33,35 +33,9 @@ class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     template_name = 'editar-perfil.html'
     success_message = 'Usuário atualizado com sucesso!'
 
-    # success_url = '/usuarios/editar-perfil/'
-
     def get_success_url(self, **kwargs):
         return reverse_lazy('editar_perfil', kwargs = {'pk': self.kwargs['pk']})
 
-
-"""
-@login_required()
-def criar_usuario(request):
-    if request.method == "POST":
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-            usuario = User.objects.create_user(**form.cleaned_data)
-            usuario.save()
-            messages.success(request, 'Conta criada com sucesso.')
-    else:
-        form = UsuarioForm()
-    return render(request, 'criar-usuario.html', {'form': form})
-"""
-
-@login_required()
-def editar_usuario(request):
-    form = UsuarioForm(request.POST or None, instance=request.user)
-    if form.is_valid():
-        usuario = form.save(commit=False)
-        usuario.set_password(form.cleaned_data['password'])
-        usuario.save()
-        messages.success(request, 'Perfil atualizado com sucesso')
-    return render(request, 'editar-perfil.html', {'form': form})
 
 def fazer_login(request):
     """

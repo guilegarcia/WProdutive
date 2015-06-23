@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 from datetime import timedelta, date
-import calendar
 import locale
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -61,15 +60,17 @@ def semana(request):
             data = dados.get('data')
             # Subtrai 14 dias para semana anterior (próxima semana já está setado ao percorrer os 7 dias)
             if dados.get('ant_prox') == 'anterior':
-                data = data - timedelta(days=-14)
+                data = data - timedelta(days=7)
+            else:
+                data = data + timedelta(days=7)
 
-    # ___ Percorre os dias e busca lista tarefas e lembretes __
     # Recebe a segunda-feira da semana a partir da data
     data = data - timedelta(days=data.weekday())
-    # Insere dias da semana na session
+
+    # Insere dias da semana na session  (lembretes e tarefas)
     insere_dias_semana_session(request, data)
 
-    return render(request, 'semana.html', {'data': data})
+    return render(request, 'semana.html', {'data_semana': data})
 
 
 
@@ -95,9 +96,9 @@ def gera_progresso(request, lista_tarefas):
 @login_required()
 def insere_dias_semana_session(request, data):
     """
-    :param request:
     :param data: recebe a data do início da semana
     :param: datas_semana: recebe as datas da semana (para usar no template)
+    data.strftime('tarefas_%a'): imprime "tarefas_qua"
     """
     # Seta a localização brasil (para imprimir o dia em pt-br)
     locale.setlocale(locale.LC_ALL, '')

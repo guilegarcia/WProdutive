@@ -28,17 +28,17 @@
             <ul class="pager">
                 <div class="pull-left">
                     <!-- Próximo -->
-                    <form action="semana.html" method="post" role="form">
-                        <input type="hidden" name="antProx" value="anterior" />
-                        <input type="hidden" name="data" value="${dataSemana}" />
+                    <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                        <input type="hidden" name="ant_prox" value="anterior" />
+                        <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}" />
                         <li class="next"><button type="submit" class="btn btn-default">« Semana anterior</button></li>
                     </form>
                 </div>
                 <div class="pull-right">
                     <!-- Anterior -->
-                    <form action="semana.html" method="post" role="form">
-                        <input type="hidden" name="antProx" value="proxima" />
-                        <input type="hidden" name="data" value="${dataSemana}" />
+                    <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                        <input type="hidden" name="ant_prox" value="proxima" />
+                        <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}" />
                         <li class="next"><button type="submit" class="btn btn-default">Próximo semana »</button></li>
                     </form>
                 </div>
