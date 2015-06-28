@@ -37,7 +37,7 @@ function mudou() {
 
     } else {
         $.post( "/tarefas/alterar-status", { id: id, estado: "desmarcado", csrfmiddlewaretoken: csrftoken }, function( data ) {
-            alert( data.mensagem );
+            $('#resultado').html(data.mensagem)
         });
     }
 }

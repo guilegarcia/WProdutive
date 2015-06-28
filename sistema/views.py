@@ -73,6 +73,33 @@ def semana(request):
     return render(request, 'semana.html', {'data_semana': data})
 
 
+@login_required()
+def insere_dias_semana_session(request, data):
+    """
+    :param data: recebe a data do início da semana
+    :param: datas_semana: recebe as datas da semana (para usar no template)
+    data.strftime('tarefas_%a'): imprime "tarefas_qua"
+    """
+    # Seta a localização brasil (para imprimir o dia em pt-br)
+    locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil.1252') # Testar em produção
+
+    # Seta os dias da semana na session (de 0 (segunda) a domingo (7))
+    data = data - timedelta(days=1) # Inicia na segunda
+    datas_semana = []
+    for x in range(0, 6):
+        data = data + timedelta(days=1)
+        lista_tarefas = Tarefa.objects.filter(usuario=request.user, data=data)
+        # Insere lista de tarefas e lembretes
+        request.session[data.strftime('tarefas_%a')] = lista_tarefas
+        request.session[data.strftime('lembretes_%a')] = Lembrete.objects.filter(usuario=request.user, data=data)
+        # Datas da semana (usado no template)
+        datas_semana.append(data)
+        # Gera total duração
+        total_duracao = gera_total_duracao(request, lista_tarefas)
+        teste = data.strftime('total_horas_%a') # Está imprimindo 'total_horas_s�b'
+        request.session[data.strftime('total_horas_%a')] = total_duracao # duracao_seg, ter, etc
+
+    request.session['datas_semana'] = datas_semana
 
 @login_required()
 def gera_total_duracao(request, lista_tarefas):
@@ -92,28 +119,6 @@ def gera_progresso(request, lista_tarefas):
     if len(lista_tarefas)!= 0:
         progresso = (tarefas_concluidas/len(lista_tarefas))*100
     return progresso
-
-@login_required()
-def insere_dias_semana_session(request, data):
-    """
-    :param data: recebe a data do início da semana
-    :param: datas_semana: recebe as datas da semana (para usar no template)
-    data.strftime('tarefas_%a'): imprime "tarefas_qua"
-    """
-    # Seta a localização brasil (para imprimir o dia em pt-br)
-    locale.setlocale(locale.LC_ALL, '')
-    #todo a localização tem que ser BR, caso contrário outro computador vai dar erro (tarefas_"seg")
-
-    # Seta os dias da semana na session (de 0 (segunda) a domingo (7))
-    data = data - timedelta(days=1) # Inicia na segunda
-    datas_semana = []
-    for x in range(0, 6):
-        data = data + timedelta(days=1)
-        request.session[data.strftime('tarefas_%a')] = Tarefa.objects.filter(usuario=request.user, data=data)
-        request.session[data.strftime('lembretes_%a')] = Lembrete.objects.filter(usuario=request.user, data=data)
-        datas_semana.append(data)
-        # todo criar total_horas_seg
-    request.session['datas_semana'] = datas_semana
 
 
 

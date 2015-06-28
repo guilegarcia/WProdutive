@@ -49,7 +49,7 @@ def editar_tarefa(request):
             # todo não está fechando o modal depois de editado
             return redirect(request.META.get('HTTP_REFERER', None) or '/')
 
-    return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa':id_tarefa})
+    return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
 
 """
 # Usar https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-simple/#django.views.generic.base.TemplateResponseMixin
