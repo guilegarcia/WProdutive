@@ -34,7 +34,7 @@
                         <li class="list-group-item">
                             <form action="{% url 'editar_projeto' %}" method="get" role="form">
                                 <a href="{% url 'projeto' projeto.id %}" title="{{ projeto.nome }}">{{ projeto.nome }}</a>
-                                <a href="{% url 'excluir_projeto' projeto.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Editar projeto!"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href="{% url 'excluir_projeto' projeto.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir projeto!"><span class="glyphicon glyphicon-remove"></span></a>
 
                                 <button type="submit" name="id" value="{{ projeto.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
                             </form>

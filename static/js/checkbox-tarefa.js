@@ -32,11 +32,13 @@ function mudou() {
     if ($(this).prop('checked')) {
         $.post( "/tarefas/alterar-status", { id: id, estado: "marcado", csrfmiddlewaretoken: csrftoken }, function( data ) {
              $(".progress").load(location.href + " .progress");
+             $('#mostrar-alerta').show(5)
              $('#resultado').html(data.mensagem)
         });
 
     } else {
         $.post( "/tarefas/alterar-status", { id: id, estado: "desmarcado", csrfmiddlewaretoken: csrftoken }, function( data ) {
+            $('#mostrar-alerta').show(5)
             $('#resultado').html(data.mensagem)
         });
     }

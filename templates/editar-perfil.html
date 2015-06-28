@@ -28,7 +28,6 @@
                 {% endfor %}
 
             <!-- Form boostrap -->
-                <!-- TODO criar form com boostrap direto no código -->
                 <form method="post" action="{% url 'editar_perfil' user.id %}" class="form-horizontal" role="form">
                     {% csrf_token %}
                     <legend draggable="true">Cadastro</legend>
@@ -36,29 +35,23 @@
 
                     <div class="form-group {%if form.first_name.errors %}has-error{% endif %} col-md-12">
                         <label for="id_first_name">Nome: <abbr title="Campo obrigatório">*</abbr></label>
-                        {{ form.first_name }}
+                        <input name="first_name" type="text" class="form-control" value="{{ form.first_name.value }}" maxlength="30" id="id_first_name" placeholder="Escreva o nome..">
+
                         {% for error in form.first_name.errors  %}
                             <p class="text-danger">{{ error|escape }}</p>
                         {% endfor %}
                     </div>
 
-                    <div class="form-group {%if form.username.errors %}has-error{% endif %} col-md-12">
-                        <label for="id_username">Usuário: <abbr title="Campo obrigatório">*</abbr></label>
-                        {{ form.username }}
-                        {% for error in form.username.errors  %}
-                            <p class="text-danger">{{ error|escape }}</p>
-                        {% endfor %}
-                    </div>
                     <div class="form-group {%if form.email.errors %}has-error{% endif %} col-md-10">
                         <label for="id_email">E-mail: <abbr title="Campo obrigatório">*</abbr></label>
-                        {{ form.email }}
+                        <input id="id_email" class="form-control" maxlength="254" name="email" type="email" value="{{ form.email.value }}" />
                         {% for error in form.email.errors %}
                             <p class="text-danger">{{ error|escape }}</p>
                         {% endfor %}
                     </div>
                     <div class="form-group {%if form.password.errors %}has-error{% endif %} col-md-10">
                         <label for="id_password">Senha: <abbr title="Campo obrigatório">*</abbr></label>
-                        {{ form.password }}
+                        <input id="id_password" maxlength="128" name="password" type="password" class="form-control" placeholder="Escreva uma senha.." />
                         {% for error in form.password.errors %}
                             <p class="text-danger">{{ error|escape }}</p>
                         {% endfor %}
