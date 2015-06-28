@@ -18,7 +18,10 @@
             <!-- Botão adicionar -->
             <div class="row">
                 <!-- Exibe resultado da alteração da tarefa -->
-                <div id="resultado">{{ alterou_tarefa }}</div>
+                <div class="alert alert-success  alert-dismissable" id="mostrar-alerta" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <div id="resultado"></div>
+                </div>
                 <!-- Mensagem Django -->
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}  alert-dismissable">
