@@ -24,7 +24,7 @@ def criar_lembrete(request):
 
 @login_required()
 def excluir_lembrete(request, id=None):
-    lembrete = get_object_or_404(Lembrete, usuario = request.user, id=id)
+    lembrete = get_object_or_404(Lembrete, usuario=request.user, id=id)
     lembrete.delete()
     messages.success(request, 'Lembrete excluído com sucesso!')
     return redirect(request.META.get('HTTP_REFERER'))
