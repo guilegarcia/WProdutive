@@ -67,6 +67,7 @@ def papel(request, id=None):
 @login_required()
 def gera_total_duracao(request, lista_tarefas):
     total_duracao = timedelta(days=0, hours=0, microseconds=0, milliseconds=0, minutes=0, weeks=0)
+
     for tarefa in lista_tarefas:
         if tarefa.duracao:
             total_duracao = total_duracao + tarefa.duracao
