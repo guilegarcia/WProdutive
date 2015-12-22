@@ -140,165 +140,494 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="wprodutivedjango"/>
-    <table name="auth_group" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="80" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="auth_group_permissions_group_id_58c48ba9_fk_auth_group_id" table="auth_group_permissions" schema="" catalog="wprodutivedjango" columns="group_id"/>
-      <exported-key name="auth_user_groups_group_id_30a071c9_fk_auth_group_id" table="auth_user_groups" schema="" catalog="wprodutivedjango" columns="group_id"/>
-      <index name="name" unique="true" columns="name"/>
-    </table>
-    <table name="auth_group_permissions" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="auth_group_permissi_permission_id_23962d04_fk_auth_permission_id" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="auth_group_permissions_group_id_58c48ba9_fk_auth_group_id" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="group_id" unique="true" columns="permission_id"/>
-      <index name="auth_group_permissi_permission_id_23962d04_fk_auth_permission_id" unique="false" columns="permission_id"/>
-    </table>
-    <table name="auth_permission" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="codename" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="auth_permissi_content_type_id_51277a81_fk_django_content_type_id" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="auth_group_permissi_permission_id_23962d04_fk_auth_permission_id" table="auth_group_permissions" schema="" catalog="wprodutivedjango" columns="permission_id"/>
-      <exported-key name="auth_user_user_perm_permission_id_3d7071f0_fk_auth_permission_id" table="auth_user_user_permissions" schema="" catalog="wprodutivedjango" columns="permission_id"/>
-      <index name="content_type_id" unique="true" columns="codename"/>
-    </table>
-    <table name="auth_user" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="password" sqlType="VARCHAR" precision="128" scale="0" nullable="false" jdbcType="12"/>
-      <column name="last_login" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
-      <column name="is_superuser" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="username" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="first_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="last_name" sqlType="VARCHAR" precision="30" scale="0" nullable="false" jdbcType="12"/>
-      <column name="email" sqlType="VARCHAR" precision="254" scale="0" nullable="false" jdbcType="12"/>
-      <column name="is_staff" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="is_active" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6"/>
-      <column name="date_joined" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="auth_user_groups_user_id_24702650_fk_auth_user_id" table="auth_user_groups" schema="" catalog="wprodutivedjango" columns="user_id"/>
-      <exported-key name="auth_user_user_permissions_user_id_7cd7acb6_fk_auth_user_id" table="auth_user_user_permissions" schema="" catalog="wprodutivedjango" columns="user_id"/>
-      <exported-key name="django_admin_log_user_id_1c5f563_fk_auth_user_id" table="django_admin_log" schema="" catalog="wprodutivedjango" columns="user_id"/>
-      <exported-key name="lembretes_lembrete_usuario_id_79f9ae63_fk_auth_user_id" table="lembretes_lembrete" schema="" catalog="wprodutivedjango" columns="usuario_id"/>
-      <exported-key name="papeis_papel_usuario_id_4a5c348c_fk_auth_user_id" table="papeis_papel" schema="" catalog="wprodutivedjango" columns="usuario_id"/>
-      <exported-key name="projetos_projeto_usuario_id_19a747af_fk_auth_user_id" table="projetos_projeto" schema="" catalog="wprodutivedjango" columns="usuario_id"/>
-      <exported-key name="tarefas_tarefa_usuario_id_23c7744b_fk_auth_user_id" table="tarefas_tarefa" schema="" catalog="wprodutivedjango" columns="usuario_id"/>
-      <index name="username" unique="true" columns="username"/>
-    </table>
-    <table name="auth_user_groups" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="group_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="auth_user_groups_group_id_30a071c9_fk_auth_group_id" columns="group_id" ref-table="auth_group" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="auth_user_groups_user_id_24702650_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="user_id" unique="true" columns="group_id"/>
-      <index name="auth_user_groups_group_id_30a071c9_fk_auth_group_id" unique="false" columns="group_id"/>
-    </table>
-    <table name="auth_user_user_permissions" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="permission_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="auth_user_user_perm_permission_id_3d7071f0_fk_auth_permission_id" columns="permission_id" ref-table="auth_permission" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="auth_user_user_permissions_user_id_7cd7acb6_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="user_id" unique="true" columns="permission_id"/>
-      <index name="auth_user_user_perm_permission_id_3d7071f0_fk_auth_permission_id" unique="false" columns="permission_id"/>
-    </table>
-    <table name="django_admin_log" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="action_time" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <column name="object_id" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="object_repr" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="action_flag" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
-      <column name="change_message" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="content_type_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="django_admin__content_type_id_5151027a_fk_django_content_type_id" columns="content_type_id" ref-table="django_content_type" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="django_admin_log_user_id_1c5f563_fk_auth_user_id" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="django_admin__content_type_id_5151027a_fk_django_content_type_id" unique="false" columns="content_type_id"/>
-      <index name="django_admin_log_user_id_1c5f563_fk_auth_user_id" unique="false" columns="user_id"/>
-    </table>
-    <table name="django_content_type" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="app_label" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <column name="model" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <exported-key name="auth_permissi_content_type_id_51277a81_fk_django_content_type_id" table="auth_permission" schema="" catalog="wprodutivedjango" columns="content_type_id"/>
-      <exported-key name="django_admin__content_type_id_5151027a_fk_django_content_type_id" table="django_admin_log" schema="" catalog="wprodutivedjango" columns="content_type_id"/>
-      <index name="django_content_type_app_label_3ec8c61c_uniq" unique="true" columns="app_label,model"/>
-    </table>
-    <table name="django_migrations" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="app" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <column name="applied" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="django_session" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="session_key" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
-      <column name="session_data" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="false" jdbcType="-1"/>
-      <column name="expire_date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
-      <primary-key name="PRIMARY" columns="session_key"/>
-      <index name="django_session_de54fa62" unique="false" columns="expire_date"/>
-    </table>
-    <table name="lembretes_lembrete" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="titulo" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="descricao" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="data" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
-      <column name="usuario_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="lembretes_lembrete_usuario_id_79f9ae63_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="lembretes_lembrete_usuario_id_79f9ae63_fk_auth_user_id" unique="false" columns="usuario_id"/>
-    </table>
-    <table name="papeis_papel" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="nome" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="descricao" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="usuario_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="papeis_papel_usuario_id_4a5c348c_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="tarefas_tarefa_papel_id_72a771e3_fk_papeis_papel_id" table="tarefas_tarefa" schema="" catalog="wprodutivedjango" columns="papel_id"/>
-      <index name="papeis_papel_usuario_id_4a5c348c_fk_auth_user_id" unique="false" columns="usuario_id"/>
-    </table>
-    <table name="projetos_projeto" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="nome" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="descricao" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="usuario_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="projetos_projeto_usuario_id_19a747af_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <exported-key name="tarefas_tarefa_projeto_id_186af444_fk_projetos_projeto_id" table="tarefas_tarefa" schema="" catalog="wprodutivedjango" columns="projeto_id"/>
-      <index name="projetos_projeto_usuario_id_19a747af_fk_auth_user_id" unique="false" columns="usuario_id"/>
-    </table>
-    <table name="tarefas_tarefa" schema="" catalog="wprodutivedjango" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="titulo" sqlType="VARCHAR" precision="200" scale="0" nullable="false" jdbcType="12"/>
-      <column name="descricao" sqlType="LONGTEXT" precision="2147483647" scale="0" nullable="true" jdbcType="-1"/>
-      <column name="status" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <column name="duracao" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
-      <column name="prioridade" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="data" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
-      <column name="hora" sqlType="TIME" precision="8" scale="0" nullable="true" jdbcType="92"/>
-      <column name="papel_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="projeto_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="usuario_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
-      <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="tarefas_tarefa_papel_id_72a771e3_fk_papeis_papel_id" columns="papel_id" ref-table="papeis_papel" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="tarefas_tarefa_projeto_id_186af444_fk_projetos_projeto_id" columns="projeto_id" ref-table="projetos_projeto" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <foreign-key name="tarefas_tarefa_usuario_id_23c7744b_fk_auth_user_id" columns="usuario_id" ref-table="auth_user" ref-schema="" ref-catalog="wprodutivedjango" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
-      <index name="tarefas_tarefa_papel_id_72a771e3_fk_papeis_papel_id" unique="false" columns="papel_id"/>
-      <index name="tarefas_tarefa_projeto_id_186af444_fk_projetos_projeto_id" unique="false" columns="projeto_id"/>
-      <index name="tarefas_tarefa_usuario_id_23c7744b_fk_auth_user_id" unique="false" columns="usuario_id"/>
-    </table>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+      <schema id="1" name="wprodutivedjango"/>
+      <table id="2" parent="1" name="auth_group"/>
+      <table id="3" parent="1" name="auth_group_permissions"/>
+      <table id="4" parent="1" name="auth_permission"/>
+      <table id="5" parent="1" name="auth_user"/>
+      <table id="6" parent="1" name="auth_user_groups"/>
+      <table id="7" parent="1" name="auth_user_user_permissions"/>
+      <table id="8" parent="1" name="django_admin_log"/>
+      <table id="9" parent="1" name="django_content_type"/>
+      <table id="10" parent="1" name="django_migrations"/>
+      <table id="11" parent="1" name="django_session"/>
+      <table id="12" parent="1" name="lembretes_lembrete"/>
+      <table id="13" parent="1" name="papeis_papel"/>
+      <table id="14" parent="1" name="projetos_projeto"/>
+      <table id="15" parent="1" name="tarefas_tarefa"/>
+      <column id="16" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="17" parent="2" name="name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(80)</data-type>
+      </column>
+      <index id="18" parent="2" name="name">
+        <columns>name</columns>
+        <unique>1</unique>
+      </index>
+      <key id="19" parent="2" name="name">
+        <columns>name</columns>
+        <underlying-index>name</underlying-index>
+      </key>
+      <key id="20" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="21" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="22" parent="3" name="group_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="23" parent="3" name="permission_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="24" parent="3" name="group_id">
+        <columns>group_id
+permission_id</columns>
+        <unique>1</unique>
+      </index>
+      <key id="25" parent="3" name="group_id">
+        <columns>group_id
+permission_id</columns>
+        <underlying-index>group_id</underlying-index>
+      </key>
+      <key id="26" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="27" parent="3" name="auth_group_permissions_group_id_58c48ba9_fk_auth_group_id">
+        <columns>group_id</columns>
+        <ref-key>auth_group.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="28" parent="3" name="auth_group_permissi_permission_id_23962d04_fk_auth_permission_id">
+        <columns>permission_id</columns>
+        <ref-key>auth_permission.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="29" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="30" parent="4" name="name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="31" parent="4" name="content_type_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="32" parent="4" name="codename">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <index id="33" parent="4" name="content_type_id">
+        <columns>content_type_id
+codename</columns>
+        <unique>1</unique>
+      </index>
+      <key id="34" parent="4" name="content_type_id">
+        <columns>content_type_id
+codename</columns>
+        <underlying-index>content_type_id</underlying-index>
+      </key>
+      <key id="35" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="36" parent="4" name="auth_permissi_content_type_id_51277a81_fk_django_content_type_id">
+        <columns>content_type_id</columns>
+        <ref-key>django_content_type.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="37" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="38" parent="5" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(128)</data-type>
+      </column>
+      <column id="39" parent="5" name="last_login">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="40" parent="5" name="is_superuser">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+      </column>
+      <column id="41" parent="5" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="42" parent="5" name="first_name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="43" parent="5" name="last_name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="44" parent="5" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(254)</data-type>
+      </column>
+      <column id="45" parent="5" name="is_staff">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+      </column>
+      <column id="46" parent="5" name="is_active">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+      </column>
+      <column id="47" parent="5" name="date_joined">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <index id="48" parent="5" name="username">
+        <columns>username</columns>
+        <unique>1</unique>
+      </index>
+      <key id="49" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="50" parent="5" name="username">
+        <columns>username</columns>
+        <underlying-index>username</underlying-index>
+      </key>
+      <column id="51" parent="6" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="52" parent="6" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="53" parent="6" name="group_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="54" parent="6" name="user_id">
+        <columns>user_id
+group_id</columns>
+        <unique>1</unique>
+      </index>
+      <key id="55" parent="6" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="56" parent="6" name="user_id">
+        <columns>user_id
+group_id</columns>
+        <underlying-index>user_id</underlying-index>
+      </key>
+      <foreign-key id="57" parent="6" name="auth_user_groups_group_id_30a071c9_fk_auth_group_id">
+        <columns>group_id</columns>
+        <ref-key>auth_group.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="58" parent="6" name="auth_user_groups_user_id_24702650_fk_auth_user_id">
+        <columns>user_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="59" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="60" parent="7" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="61" parent="7" name="permission_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="62" parent="7" name="user_id">
+        <columns>user_id
+permission_id</columns>
+        <unique>1</unique>
+      </index>
+      <key id="63" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="64" parent="7" name="user_id">
+        <columns>user_id
+permission_id</columns>
+        <underlying-index>user_id</underlying-index>
+      </key>
+      <foreign-key id="65" parent="7" name="auth_user_user_permissions_user_id_7cd7acb6_fk_auth_user_id">
+        <columns>user_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="66" parent="7" name="auth_user_user_perm_permission_id_3d7071f0_fk_auth_permission_id">
+        <columns>permission_id</columns>
+        <ref-key>auth_permission.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="67" parent="8" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="68" parent="8" name="action_time">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="69" parent="8" name="object_id">
+        <data-type>longtext</data-type>
+      </column>
+      <column id="70" parent="8" name="object_repr">
+        <mandatory>1</mandatory>
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="71" parent="8" name="action_flag">
+        <mandatory>1</mandatory>
+        <data-type>smallint(5) unsigned</data-type>
+      </column>
+      <column id="72" parent="8" name="change_message">
+        <mandatory>1</mandatory>
+        <data-type>longtext</data-type>
+      </column>
+      <column id="73" parent="8" name="content_type_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="74" parent="8" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="75" parent="8" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="76" parent="8" name="django_admin_log_user_id_1c5f563_fk_auth_user_id">
+        <columns>user_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="77" parent="8" name="django_admin__content_type_id_5151027a_fk_django_content_type_id">
+        <columns>content_type_id</columns>
+        <ref-key>django_content_type.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="78" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="79" parent="9" name="app_label">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="80" parent="9" name="model">
+        <mandatory>1</mandatory>
+        <data-type>varchar(100)</data-type>
+      </column>
+      <index id="81" parent="9" name="django_content_type_app_label_3ec8c61c_uniq">
+        <columns>app_label
+model</columns>
+        <unique>1</unique>
+      </index>
+      <key id="82" parent="9" name="django_content_type_app_label_3ec8c61c_uniq">
+        <columns>app_label
+model</columns>
+        <underlying-index>django_content_type_app_label_3ec8c61c_uniq</underlying-index>
+      </key>
+      <key id="83" parent="9" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="84" parent="10" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="85" parent="10" name="app">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="86" parent="10" name="name">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="87" parent="10" name="applied">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <key id="88" parent="10" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="89" parent="11" name="session_key">
+        <mandatory>1</mandatory>
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="90" parent="11" name="session_data">
+        <mandatory>1</mandatory>
+        <data-type>longtext</data-type>
+      </column>
+      <column id="91" parent="11" name="expire_date">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <key id="92" parent="11" name="PRIMARY">
+        <columns>session_key</columns>
+        <primary>1</primary>
+      </key>
+      <column id="93" parent="12" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="94" parent="12" name="titulo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="95" parent="12" name="descricao">
+        <data-type>longtext</data-type>
+      </column>
+      <column id="96" parent="12" name="data">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="97" parent="12" name="usuario_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="98" parent="12" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="99" parent="12" name="lembretes_lembrete_usuario_id_79f9ae63_fk_auth_user_id">
+        <columns>usuario_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="100" parent="13" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="101" parent="13" name="nome">
+        <mandatory>1</mandatory>
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="102" parent="13" name="descricao">
+        <data-type>longtext</data-type>
+      </column>
+      <column id="103" parent="13" name="usuario_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="104" parent="13" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="105" parent="13" name="papeis_papel_usuario_id_4a5c348c_fk_auth_user_id">
+        <columns>usuario_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="106" parent="14" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="107" parent="14" name="nome">
+        <mandatory>1</mandatory>
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="108" parent="14" name="descricao">
+        <data-type>longtext</data-type>
+      </column>
+      <column id="109" parent="14" name="usuario_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="110" parent="14" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="111" parent="14" name="projetos_projeto_usuario_id_19a747af_fk_auth_user_id">
+        <columns>usuario_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="112" parent="15" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="113" parent="15" name="titulo">
+        <mandatory>1</mandatory>
+        <data-type>varchar(200)</data-type>
+      </column>
+      <column id="114" parent="15" name="descricao">
+        <data-type>longtext</data-type>
+      </column>
+      <column id="115" parent="15" name="status">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="116" parent="15" name="duracao">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="117" parent="15" name="prioridade">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="118" parent="15" name="data">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="119" parent="15" name="hora">
+        <data-type>time</data-type>
+      </column>
+      <column id="120" parent="15" name="papel_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="121" parent="15" name="projeto_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="122" parent="15" name="usuario_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="123" parent="15" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="124" parent="15" name="tarefas_tarefa_papel_id_72a771e3_fk_papeis_papel_id">
+        <columns>papel_id</columns>
+        <ref-key>papeis_papel.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="125" parent="15" name="tarefas_tarefa_projeto_id_186af444_fk_projetos_projeto_id">
+        <columns>projeto_id</columns>
+        <ref-key>projetos_projeto.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="126" parent="15" name="tarefas_tarefa_usuario_id_23c7744b_fk_auth_user_id">
+        <columns>usuario_id</columns>
+        <ref-key>auth_user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
   </data-source>
 </component>

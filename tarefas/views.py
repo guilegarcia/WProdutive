@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import CreateView, UpdateView
 from tarefas.forms import TarefaForm
 from tarefas.models import Tarefa
-from usuarios.views import LoginRequiredMixin
 
 
 @login_required()
@@ -46,8 +43,9 @@ def editar_tarefa(request):
             tarefa.id = form.cleaned_data['id']
             tarefa.save()
             messages.success(request, 'Tarefa atualizada com sucesso!')
-            # todo não está fechando o modal depois de editado
-            return redirect(request.META.get('HTTP_REFERER', None) or '/')
+            return redirect(request.POST['redirect'])
+            #todo inserir o redirect no form do modals.html
+            # todo ou fazer por Ajax (melhor maneira) clica > abre modal > envia form * mas se for invalid? *else render (abrir_modal)
 
     return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
 

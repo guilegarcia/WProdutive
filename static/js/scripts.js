@@ -43,5 +43,7 @@ function mudou() {
         });
     }
 }
-
 <!-- Fim Script Checkbox tarefa -->
+
+<!-- Submit form Criar Lembrete -->
+<!-- todo testar ajaxSubmit malsup.com/jquery/form   jsfiddle.net/hRTcE/ -->

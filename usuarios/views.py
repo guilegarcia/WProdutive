@@ -27,6 +27,14 @@ class UsuarioCreate(SuccessMessageMixin, CreateView):
     success_url = '/usuarios/criar/'
     success_message = "Usuário criado com sucesso"
 
+    # Seta o password usando criptografia e salva no banco de dados
+    def form_valid(self, form):
+        usuario = form.save(commit=False)
+        usuario.set_password(form.cleaned_data['password'])
+        usuario.save()
+        return super(UsuarioCreate, self).form_valid(form)
+
+
 class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = User
     fields = ['first_name', 'email', 'password']
@@ -34,7 +42,7 @@ class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     success_message = 'Usuário atualizado com sucesso!'
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('editar_perfil', kwargs = {'pk': self.kwargs['pk']})
+        return reverse_lazy('editar_perfil', kwargs={'pk': self.kwargs['pk']})
 
 
 def fazer_login(request):
@@ -49,12 +57,12 @@ def fazer_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # Seta os projetos e papeis na session
-                request.session['projetos'] = Projeto.objects.filter(usuario=user)
-                request.session['papeis'] = Papel.objects.filter(usuario=user)
                 return redirect(request.POST['next'])
+            else:
+                messages.error(request, 'Este usuário está inativo!')
+                return redirect('.')
         else:
             messages.error(request, 'A senha ou login estão incorretos. Tente novamente!')
-            return redirect('/login/')
+            return redirect('.')
     else:
-        return render(request, 'login.html', {'next': request.GET.get('next')})
+        return render(request, 'login.html', {'next': request.GET.get('next'), 'ativar_menu_login': 'active'})

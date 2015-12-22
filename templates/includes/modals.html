@@ -317,7 +317,7 @@
                 <em>* itens obrigatórios!</em>
             </div>
             <div class="modal-body">
-                <form action="{% url 'criar_lembrete' %}" method="post" class="form-horizontal" role="form"> {% csrf_token %}
+                <form id="criar-lembrete" action="{% url 'criar_lembrete' %}" method="post" class="form-horizontal" role="form"> {% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label for="id_titulo" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
