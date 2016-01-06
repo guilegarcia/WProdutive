@@ -30,6 +30,7 @@ def buscar_tarefas(request):
     lista_tarefas = Tarefa.objects.filter(usuario=request.user, titulo__icontains=request.GET['s'])
     return render(request, 'busca.html', {'lista_tarefas_busca': lista_tarefas, 'termo_busca': request.GET['s']})
 
+
 @login_required()
 def editar_tarefa(request):
     if request.method == 'GET':
@@ -44,10 +45,12 @@ def editar_tarefa(request):
             tarefa.save()
             messages.success(request, 'Tarefa atualizada com sucesso!')
             return redirect(request.POST['redirect'])
-            #todo inserir o redirect no form do modals.html
+            # todo inserir o redirect no form do modals.html
             # todo ou fazer por Ajax (melhor maneira) clica > abre modal > envia form * mas se for invalid? *else render (abrir_modal)
 
-    return render(request, request.GET['url'], {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
+    return render(request, request.GET['url'],
+                  {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
+
 
 """
 # Usar https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-simple/#django.views.generic.base.TemplateResponseMixin
@@ -59,7 +62,6 @@ class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
 
     # success_url = '/usuarios/editar-perfil/'
 """
-
 
 
 @login_required()
@@ -84,4 +86,3 @@ def alterar_status(request):
             tarefa.save()
             mensagem = 'Tarefa reativada!'
     return JsonResponse({'mensagem': mensagem})
-

@@ -7,6 +7,7 @@ from lembretes.models import Lembrete
 from sistema.forms import DiaForm, SemanaForm
 from tarefas.models import Tarefa
 
+
 # Dia
 @login_required()
 def dia(request):
@@ -81,10 +82,10 @@ def insere_dias_semana_session(request, data):
     data.strftime('tarefas_%a'): imprime "tarefas_qua"
     """
     # Seta a localização brasil (para imprimir o dia em pt-br)
-    locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil.1252') # Testar em produção
+    locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')  # Testar em produção
 
     # Seta os dias da semana na session (de 0 (segunda) a domingo (7))
-    data = data - timedelta(days=1) # Inicia na segunda
+    data = data - timedelta(days=1)  # Inicia na segunda
     datas_semana = []
     for x in range(0, 6):
         data = data + timedelta(days=1)
@@ -96,10 +97,11 @@ def insere_dias_semana_session(request, data):
         datas_semana.append(data)
         # Gera total duração
         total_duracao = gera_total_duracao(request, lista_tarefas)
-        teste = data.strftime('total_horas_%a') # Está imprimindo 'total_horas_s�b'
-        request.session[data.strftime('total_horas_%a')] = total_duracao # duracao_seg, ter, etc
+        teste = data.strftime('total_horas_%a')  # Está imprimindo 'total_horas_s�b'
+        request.session[data.strftime('total_horas_%a')] = total_duracao  # duracao_seg, ter, etc
 
     request.session['datas_semana'] = datas_semana
+
 
 @login_required()
 def gera_total_duracao(request, lista_tarefas):
@@ -109,17 +111,14 @@ def gera_total_duracao(request, lista_tarefas):
             total_duracao = total_duracao + tarefa.duracao
     return total_duracao
 
+
 @login_required()
 def gera_progresso(request, lista_tarefas):
     tarefas_concluidas = 0
     progresso = 0
     for tarefa in lista_tarefas:
         if tarefa.status == 1:
-            tarefas_concluidas =+ 1
-    if len(lista_tarefas)!= 0:
-        progresso = (tarefas_concluidas/len(lista_tarefas))*100
+            tarefas_concluidas = + 1
+    if len(lista_tarefas) != 0:
+        progresso = (tarefas_concluidas / len(lista_tarefas)) * 100
     return progresso
-
-
-
-

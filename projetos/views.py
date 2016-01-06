@@ -2,7 +2,11 @@
 from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import UpdateView
+
 from projetos.forms import ProjetoForm
 from projetos.models import Projeto
 from tarefas.models import Tarefa
@@ -52,14 +56,16 @@ def editar_projeto(request):
         form = ProjetoForm(instance=projeto)
     else:
         form = ProjetoForm(request.POST)
+        projeto = form # somente para enviar projeto no response
         if form.is_valid():
             projeto = form.save(commit=False)
             projeto.id = form.cleaned_data['id']
             projeto.save()
             messages.success(request, 'Projeto atualizado com sucesso')
-            return redirect('/projetos/')
-    return render(request, 'projetos.html',
-              {'form': form, 'abrir_modal_projeto': 'in', 'editar_projeto': '/projetos/editar-projeto/'})
+            return redirect('projetos')
+
+    return JsonResponse({'nome': projeto.nome, 'descricao': projeto.descricao, 'id': projeto.id})
+    # return render(request, 'projetos.html', {'form': form, 'abrir_modal_projeto': 'in', 'editar_projeto': '/projetos/editar/'})
 
 
 # Remover projeto
@@ -70,6 +76,7 @@ def excluir_projeto(request, id=None):
     messages.success(request, 'Projeto excluído com sucesso')
     return redirect(request.META.get('HTTP_REFERER'))
 
+
 @login_required()
 def gera_total_duracao(request, lista_tarefas):
     total_duracao = timedelta(days=0, hours=0, microseconds=0, milliseconds=0, minutes=0, weeks=0)
@@ -78,14 +85,14 @@ def gera_total_duracao(request, lista_tarefas):
             total_duracao = total_duracao + tarefa.duracao
     return total_duracao
 
+
 @login_required()
 def gera_progresso(request, lista_tarefas):
     tarefas_concluidas = 0
     progresso = 0
     for tarefa in lista_tarefas:
         if tarefa.status == 1:
-            tarefas_concluidas =+ 1
+            tarefas_concluidas = + 1
     if len(lista_tarefas) != 0:
-        progresso = (tarefas_concluidas/len(lista_tarefas))*100
+        progresso = (tarefas_concluidas / len(lista_tarefas)) * 100
     return progresso
-

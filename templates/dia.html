@@ -123,7 +123,7 @@
                                 <td><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}" checked/>
                                     <del>{{ tarefa.titulo }}</del>
                                 </td>
-                                <td>{{ tarefa.duracao|default_if_none:"0:00:00" }}</td>
+                                <td><del>{{ tarefa.duracao|default_if_none:"0:00:00" }}</del></td>
                                 <td>
                                     <del>
                                         {{ tarefa.data|date:'Y-m-d' }}

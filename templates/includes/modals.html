@@ -255,7 +255,7 @@
 </div>
 <!-- fim MODAL papel -->
 <!-- MODAL projeto  -->
-<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" data-keyboard="true" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -267,10 +267,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <form action="{% if editar_projeto %}{{ editar_projeto }}{% else %}/projetos/criar-projeto/{% endif %}" method="POST" class="form-horizontal" role="form"> {% csrf_token %}
+                            <form id="criar_editar_projeto" action="{% if editar_projeto %}{{ editar_projeto }}{% else %}/projetos/criar-projeto/{% endif %}" method="POST" class="form-horizontal" role="form"> {% csrf_token %}
                                 <div class="form-group col-md-10">
                                     <label for="id_nome">Nome: <abbr title="Campo obrigatório">*</abbr></label>
-                                    <input name="nome" type="text" class="form-control" value="{{ form.nome.value }}" maxlength="200" id="id_nome" placeholder="Escreva seu nome..">
+                                    <input name="nome" id="id_nome_projeto" type="text" class="form-control" value="{{ form.nome.value }}" maxlength="200" id="id_nome" placeholder="Escreva seu nome..">
                                     {% for error in form.nome.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
@@ -278,18 +278,16 @@
                                 </div>
                                 <div class="form-group col-md-12" draggable="true">
                                     <label for="id_descricao">Descricao:</label>
-                                    <textarea name="descricao" id="id_descricao" class="form-control" rows="4" placeholder="Descrição da projeto..">{{ form.descricao.value }}</textarea>
+                                    <textarea name="descricao" id="id_descricao_projeto" class="form-control" rows="4" placeholder="Descrição da projeto..">{{ form.descricao.value }}</textarea>
                                     {% for error in form.descricao.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
 
                                 </div>
-                                <input type="hidden" name="usuario" value="{{ user.id }}">
-                                <input type="hidden" name="url" value="{{ url }}">
-                                <!-- Verifica se possui id (editar -->
-                                {% if form.id.value %}
-                                    <input type="hidden" name="id" value="{{ form.id.value }}">
-                                {% endif %}
+                                <input type="hidden" id="id_usuario_projeto" name="usuario" value="{{ user.id }}">
+                                <input type="hidden" id="id_url_projeto" name="url" value="{{ url }}">
+                                <input id="id_id_projeto" type="hidden" name="id" value="{{ form.id.value }}">
+
                                 <div class="form-group col-md-8">
                                     <button type="submit" class="btn btn-success" draggable="true" data-loading-text="Cadastrando...">Cadastrar</button>
                                 </div>
@@ -305,7 +303,7 @@
         </div>
     </div>
 </div>
-<!-- fim MODAL categoria -->
+<!-- fim MODAL projeto -->
 
 <!-- Inicio MODAL Lembrete -->
 <div class="modal fade {{ abrir_modal_lembrete }}" id="criarLembrete">

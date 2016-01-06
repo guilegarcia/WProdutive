@@ -32,15 +32,20 @@
                 <ul class="list-group col-md-8">
                     {% for projeto in request.session.lista_projetos %}
                         <li class="list-group-item">
+                            <a href="{% url 'projeto' projeto.id %}" title="{{ projeto.nome }}">{{ projeto.nome }}</a>
+                            <a href="{% url 'excluir_projeto' projeto.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir projeto!"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a href="" onclick="editar_projeto({{ projeto.id }})" role="button" class="btn btn-info btn-xs pull-right" title="Editar status!"><span class="glyphicon glyphicon-pencil"></span></a>
+                             {% comment %}
                             <form action="{% url 'editar_projeto' %}" method="get" role="form">
                                 <a href="{% url 'projeto' projeto.id %}" title="{{ projeto.nome }}">{{ projeto.nome }}</a>
                                 <a href="{% url 'excluir_projeto' projeto.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir projeto!"><span class="glyphicon glyphicon-remove"></span></a>
 
                                 <button type="submit" name="id" value="{{ projeto.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
                             </form>
+                            {% endcomment %}
                         </li>
                         {% empty %}
-                            <p class="text-warning">Não há projetos disponíveis. <a href="#" data-toggle="modal" data-target="#criarProjeto">Adicione o primeiro!</a></p>
+                            <p class="text-warning">Nenhum projeto cadastrado! <a href="#" data-toggle="modal" data-target="#criarProjeto">Cadastre um projeto!</a></p>
                     {% endfor %}
                 </ul>
                 <!-- fim Lista projetos -->

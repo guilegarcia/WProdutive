@@ -40,8 +40,17 @@ INSTALLED_APPS = (
     'projetos',
     'papeis',
     'lembretes'
+    # 'social_auth' # login e cadastro com social (twitter, facebook, etc)
 )
-
+"""
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+)
+"""
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'wprodutivedjango',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'admin',
     }
 }
 
