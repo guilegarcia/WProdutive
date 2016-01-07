@@ -13,6 +13,9 @@ from tarefas.models import Tarefa
 # Dia
 @login_required()
 def dia(request):
+    """
+    Mostra as tarefas do dia e marca as tarefas atrasadas em vermelho. Além disso, é mostrado de horas do dia.
+    """
     data = date.today()
     if request.method == 'POST':
         form = DiaForm(request.POST)
@@ -55,8 +58,12 @@ def dia(request):
 
 @login_required()
 def semana(request):
+    """
+    Mostra as tarefas dos dias da semana, total de horas de cada dia e lembretes.
+    """
     # Pega a data de hoje
     data = date.today()
+    # Se clicou no link "Semana anterior" ou "Próxima semana"
     if request.method == 'POST':
         form = SemanaForm(request.POST)
         if form.is_valid():
@@ -80,28 +87,35 @@ def semana(request):
 @login_required()
 def insere_dias_semana_session(request, data):
     """
+    Insere os dias da semana na session (exibo em semana.html)
+
+    Atributos:
     :param data: recebe a data do início da semana
     :param: datas_semana: recebe as datas da semana (para usar no template)
     data.strftime('tarefas_%a'): imprime "tarefas_qua"
     """
-    # Seta a localização brasil (para imprimir o dia em pt-br)
-    locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')  # Testar em produção
+
+    data = data - timedelta(days=1)  # Inicia na segunda
+    datas_semana = []  # As datas da semana (no template)
+    dias_semana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo']
 
     # Seta os dias da semana na session (de 0 (segunda) a domingo (7))
-    data = data - timedelta(days=1)  # Inicia na segunda
-    datas_semana = []
     for x in range(0, 6):
         data = data + timedelta(days=1)
-        lista_tarefas = Tarefa.objects.filter(usuario=request.user, data=data)
-        # Insere lista de tarefas e lembretes
-        request.session[data.strftime('tarefas_%a')] = lista_tarefas
-        request.session[data.strftime('lembretes_%a')] = Lembrete.objects.filter(usuario=request.user, data=data)
+        tarefa_do_dia = Tarefa.objects.filter(usuario=request.user, data=data)
+        # Insere lista de tarefas e lembretes na session (tarefas_segunda..)
+        """
+        request.session[data.strftime('tarefas_%a')] = tarefa_do_dia
+        request.session[data.strftime('lembretes_%a')] =
+        """
+        request.session['tarefas_' + dias_semana[x]] = tarefa_do_dia
+        request.session['lembretes_' + dias_semana[x]] = Lembrete.objects.filter(usuario=request.user, data=data)
+
         # Datas da semana (usado no template)
         datas_semana.append(data)
         # Gera total duração
-        total_duracao = gera_total_duracao(request, lista_tarefas)
-        teste = data.strftime('total_horas_%a')  # Está imprimindo 'total_horas_s�b'
-        request.session[data.strftime('total_horas_%a')] = total_duracao  # duracao_seg, ter, etc
+        total_duracao = gera_total_duracao(request, tarefa_do_dia)
+        request.session[data.strftime('total_horas_' + dias_semana[x])] = total_duracao  # duracao_seg, ter, etc
 
     request.session['datas_semana'] = datas_semana
 

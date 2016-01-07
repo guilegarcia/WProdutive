@@ -53,24 +53,24 @@
             <div class="col-md-4 nopadding">
                 <h3>Segunda-feira <small>{{ request.session.datas_semana.0 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_seg %}
+                {% if request.session.lembretes_segunda %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_seg %}
+                    {% for lembrete in request.session.lembretes_segunda %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_seg %}
+                    {% endfor request.session.lembretes_segunda %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_seg|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_segunda|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_seg %}
+                    {% for tarefa in request.session.tarefas_segunda %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -87,7 +87,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para segunda!</p></li>
-                    {% endfor tarefas_seg %}
+                    {% endfor tarefas_segunda %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -98,24 +98,24 @@
             <div class="col-md-4">
                 <h3>Terça-feira <small>{{ request.session.datas_semana.1 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_ter %}
+                {% if request.session.lembretes_terca %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_ter  %}
+                    {% for lembrete in request.session.lembretes_terca  %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_ter %}
+                    {% endfor request.session.lembretes_terca %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_ter|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_terca|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_ter %}
+                    {% for tarefa in request.session.tarefas_terca %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -132,7 +132,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para terça!</p></li>
-                    {% endfor tarefas_ter %}
+                    {% endfor tarefas_terca %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -143,24 +143,24 @@
             <div class="col-md-4">
                 <h3>Quarta-feira <small>{{ request.session.datas_semana.2 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_qua %}
+                {% if request.session.lembretes_quarta%}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_qua  %}
+                    {% for lembrete in request.session.lembretes_quarta %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_qua %}
+                    {% endfor request.session.lembretes_quarta%}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_qua|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_quarta|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_qua %}
+                    {% for tarefa in request.session.tarefas_quarta %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -177,7 +177,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para quarta!</p></li>
-                    {% endfor tarefas_qua %}
+                    {% endfor tarefas_quarta%}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -190,24 +190,24 @@
             <div class="col-md-4 nopadding">
                 <h3>Quinta-feira <small>{{ request.session.datas_semana.3 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_qui %}
+                {% if request.session.lembretes_quinta  %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_qui  %}
+                    {% for lembrete in request.session.lembretes_quinta   %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_qui %}
+                    {% endfor request.session.lembretes_quinta  %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_qui|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_quinta|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_qui %}
+                    {% for tarefa in request.session.tarefas_quinta  %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -224,7 +224,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para quinta!</p></li>
-                    {% endfor tarefas_qui %}
+                    {% endfor tarefas_quinta  %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -235,24 +235,24 @@
             <div class="col-md-4">
                 <h3>Sexta-feira <small>{{ request.session.datas_semana.4 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_sex %}
+                {% if request.session.lembretes_sexta %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_sex  %}
+                    {% for lembrete in request.session.lembretes_sexta  %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_sex %}
+                    {% endfor request.session.lembretes_sexta %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_sex|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_sexta|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_sex %}
+                    {% for tarefa in request.session.tarefas_sexta %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -269,7 +269,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para sexta!</p></li>
-                    {% endfor tarefas_sex %}
+                    {% endfor tarefas_sexta %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -280,24 +280,24 @@
             <div class="col-md-4">
                 <h3>Sábado <small>{{ request.session.datas_semana.5 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_sab %}
+                {% if request.session.lembretes_sabado %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_sab  %}
+                    {% for lembrete in request.session.lembretes_sabado  %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_sab %}
+                    {% endfor request.session.lembretes_sabado %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_sab|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_sabado|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_sab %}
+                    {% for tarefa in request.session.tarefas_sabado %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -314,7 +314,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para sábado!</p></li>
-                    {% endfor tarefas_sab %}
+                    {% endfor tarefas_sabado %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -327,24 +327,24 @@
             <div class="col-md-4 nopadding">
                 <h3>Domingo <small>{{ request.session.datas_semana.6 }}</small></h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_dom %}
+                {% if request.session.lembretes_domingo %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_dom  %}
+                    {% for lembrete in request.session.lembretes_domingo  %}
                         <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
                             <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
                         </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_dom %}
+                    {% endfor request.session.lembretes_domingo %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_dom|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_domingo|default_if_none:"00:00:00" }}</strong></small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_dom %}
+                    {% for tarefa in request.session.tarefas_domingo %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -361,7 +361,7 @@
                         </li>
                         {% empty %}
                             <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para domingo!</p></li>
-                    {% endfor tarefas_dom %}
+                    {% endfor tarefas_domingo %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
