@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+from django.contrib.auth.views import logout_then_login
+
+from sistema import views as views_sistema
+from usuarios import views as views_usuarios
 
 urlpatterns = [
-    url(r'^$', 'sistema.views.dia', name='dia'),
-    url(r'^semana/$', 'sistema.views.semana', name='semana'),
-
+    url(r'^$', views_sistema.dia, name='dia'),
+    url(r'^semana/$', views_sistema.semana, name='semana'),
     url(r'^tarefas/', include('tarefas.urls')),
     url(r'^projetos/', include('projetos.urls')),
     url(r'^papeis/', include('papeis.urls')),
@@ -30,6 +32,6 @@ urlpatterns = [
 
     # Login autentificacao
     # url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
-    url(r'^login/$', 'usuarios.views.fazer_login', name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {'login_url': '/login/'}),
+    url(r'^login/$', views_usuarios.fazer_login, name='login'),
+    url(r'^logout/$', logout_then_login, {'login_url': '/login/'}),
 ]

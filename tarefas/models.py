@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
+
 from papeis.models import Papel
 from projetos.models import Projeto
+
 
 class Tarefa(models.Model):
     titulo = models.CharField(max_length=200)

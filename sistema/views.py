@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
-from datetime import timedelta, date
 import locale
+from datetime import date, timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+
 from lembretes.models import Lembrete
 from sistema.forms import DiaForm, SemanaForm
 from tarefas.models import Tarefa
@@ -53,6 +55,7 @@ def dia(request):
 
 @login_required()
 def semana(request):
+    # Pega a data de hoje
     data = date.today()
     if request.method == 'POST':
         form = SemanaForm(request.POST)

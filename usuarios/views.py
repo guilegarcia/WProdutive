@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView
+
 from papeis.models import Papel
 from projetos.models import Projeto
 from usuarios.forms import UsuarioForm

@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
+
 # Cria Lembrete
 from lembretes.forms import FormLembrete
 from lembretes.models import Lembrete

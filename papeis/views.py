@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 from datetime import timedelta
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
+
 from papeis.forms import FormPapel
 from papeis.models import Papel
 from tarefas.models import Tarefa

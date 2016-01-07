@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
 from django import forms
 
-__author__ = 'GuiLe Garcia'
 from tarefas.models import Tarefa
+
+__author__ = 'GuiLe Garcia'
 
 class TarefaForm(forms.ModelForm):
     data = forms.DateField(

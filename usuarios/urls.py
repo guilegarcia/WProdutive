@@ -1,7 +1,7 @@
 __author__ = 'GuiLe Garcia'
 from django.conf.urls import url
-from usuarios.views import UsuarioCreate, UsuarioUpdate
 
+from usuarios.views import UsuarioCreate, UsuarioUpdate
 
 urlpatterns = [
     url(r'^criar/$', UsuarioCreate.as_view(), name='criar_usuario'),

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.forms import TextInput, EmailInput, PasswordInput
+from django.forms import EmailInput, PasswordInput, TextInput
 
 __author__ = 'GuiLe Garcia'
 

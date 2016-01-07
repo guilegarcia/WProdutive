@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
 from datetime import timedelta
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import UpdateView
+from django.shortcuts import get_object_or_404, redirect, render
 
 from projetos.forms import ProjetoForm
 from projetos.models import Projeto
