@@ -12,39 +12,6 @@
         <script type="text/javascript" src="{% static "js/jquery.form.js" %}"></script>
 
 
-
-        <!-- Script Checkbox tarefa
-        <script>
-            // Mudou o change (precisa ativar o trigger)
-            function mudou() {
-                alert('Teste');
-                var id = $(this).attr("idTarefa");
-                if ($(this).prop('checked')) {
-                    $.post("/alterar-status/", {id: id, estado: "marcado"}, (function (alterouTarefa) {
-                                $("#tabelaTarefas").load(location.href + " #tabelaTarefas>*", function () {
-                                    $('.checkTarefa').change(mudou);
-                                });
-                                $(".progress").load(location.href + " .progress");
-                                $('#resultado').html(alterouTarefa)
-                            })
-                    );
-                } else {
-                    $.post("alterar-status/", {id: id, estado: "desmarcado"}, (function (alterouTarefa) {
-                                $("#tabelaTarefas").load(location.href + " #tabelaTarefas>*", function () {
-                                    $('.checkTarefa').change(mudou);
-                                });
-                                $(".progress").load(location.href + " .progress");
-                                $('#resultado').html(alterouTarefa)
-                            })
-                    );
-                }
-            }
-            $(document).ready(function () {
-                $('.checkTarefa').change(mudou);
-            });
-        </script>
-        <!-- Fim Script Checkbox tarefa -->
-
         <!-- Atalhos teclado -->
         <script>
             $(document).ready(function () {
@@ -83,16 +50,28 @@
     {% block title %}
         <title>WebProdutive</title>
     {% endblock title %}
+
+
+
 </head>
 <body>
 {% block menu-topo %}
+
     <div class="navbar navbar-inverse navbar-static-top">
         <!-- Inic�o do menu topo -->
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" contenteditable="true">WebProdutive</a>
+                <!-- Mobile -->
+                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- fim Mobile -->
             </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="collapse navbar-collapse navbar-ex1-collapse" id="navigationbar">
                 <ul class="nav navbar-left navbar-nav">
                     <!-- <li class="">
                         <a href="#"><span class="glyphicon glyphicon-home"></span> Inicio</a>
@@ -144,6 +123,31 @@
             <!-- fim Menu do topo -->
         </div>
     </div>
+
+    <!-- TESTE
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+        <div class="container-fluid" id="navfluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./Index.html">Stadtfestlauf</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navigationbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="./Index.html">Startseite</a></li>
+                    <li><a href="./Rueckblick.html">R&uuml;ckblick</a></li>
+                    <li><a href="./Wettbewerb.html">Wettbewerb</a></li>
+                    <li><a href="./anmelden.html">Anmelden</a></li>
+                    <li><a href="./sponsoren.html">Sponsoren</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!-- TESTE Menu -->
 {% endblock menu-topo %}
 
 {% block corpo %}

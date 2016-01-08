@@ -4,71 +4,89 @@
 {% endblock title %}
 
 {% block corpo %}
-<div class="container">
-    <div class="col-md-12">
+    <div class="container">
+
         <div class="row">
-            <ul class="breadcrumb">
-                <li><a href="/">Início</a></li>
-                <li class="active">Semana</li>
-            </ul>
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li><a href="/">Início</a></li>
+                    <li class="active">Semana</li>
+                </ul>
 
-            <!-- Mensagens do form (msg) -->
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}  alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{ message }}
-                </div>
-            {% endfor %}
+                <!-- Mensagens do form (msg) -->
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}  alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
 
-            {% include 'includes/botao-adicionar.html' %}
+                {% include 'includes/botao-adicionar.html' %}
+            </div>
         </div>
 
         <!-- Próxima semana e Anterior « -->
         <div class="row">
-            <ul class="pager">
-                <div class="pull-left">
-                    <!-- Próximo -->
-                    <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
-                        <input type="hidden" name="ant_prox" value="anterior" />
-                        <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}" />
-                        <li class="next"><button type="submit" class="btn btn-default">« Semana anterior</button></li>
-                    </form>
-                </div>
-                <div class="pull-right">
-                    <!-- Anterior -->
-                    <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
-                        <input type="hidden" name="ant_prox" value="proxima" />
-                        <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}" />
-                        <li class="next"><button type="submit" class="btn btn-default">Próximo semana »</button></li>
-                    </form>
-                </div>
-            </ul>
+            <div class="col-md-12">
+                <ul class="pager">
+                    <div class="pull-left">
+                        <!-- Próximo -->
+                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="anterior"/>
+                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">« Semana anterior</button>
+                            </li>
+                        </form>
+                    </div>
+                    <div class="pull-right">
+                        <!-- Anterior -->
+                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="proxima"/>
+                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">Próximo semana »</button>
+                            </li>
+                        </form>
+                    </div>
+                </ul>
+            </div>
         </div>
 
-        <div class="row">
-            <h1>Semana</h1>
+        <!-- SEMANA -->
+        <div id="row">
+            <div id="col-md-12"><h1>Semana</h1></div>
+        </div>
 
-            <!-- SEGUNDA -->
-            <!-- Lembretes  -->
+        <!-- SEGUNDA -->
+        <!-- Lembretes  -->
+        <div id="row">
             <div class="col-md-4 nopadding">
-                <h3>Segunda-feira <small>{{ request.session.datas_semana.0 }}</small></h3>
+                <h3>Segunda-feira
+                    <small>{{ request.session.datas_semana.0 }}</small>
+                </h3>
                 <!-- Lembretes -->
                 {% if request.session.lembretes_segunda %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_segunda %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_segunda %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_segunda %}
+                        {% endfor request.session.lembretes_segunda %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_segunda|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_segunda|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_segunda %}
                         <li class="list-group-item">
@@ -79,14 +97,19 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para segunda!</p></li>
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para segunda!</p></li>
                     {% endfor tarefas_segunda %}
                 </ul>
                 <!-- fim Tarefas -->
@@ -96,24 +119,31 @@
             <!-- TERÇA -->
             <!-- Lembretes  -->
             <div class="col-md-4">
-                <h3>Terça-feira <small>{{ request.session.datas_semana.1 }}</small></h3>
+                <h3>Terça-feira
+                    <small>{{ request.session.datas_semana.1 }}</small>
+                </h3>
                 <!-- Lembretes -->
                 {% if request.session.lembretes_terca %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_terca  %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_terca %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_terca %}
+                        {% endfor request.session.lembretes_terca %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_terca|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_terca|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_terca %}
                         <li class="list-group-item">
@@ -124,14 +154,19 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para terça!</p></li>
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para terça!</p></li>
                     {% endfor tarefas_terca %}
                 </ul>
                 <!-- fim Tarefas -->
@@ -141,24 +176,31 @@
             <!-- QUARTA -->
             <!-- Lembretes  -->
             <div class="col-md-4">
-                <h3>Quarta-feira <small>{{ request.session.datas_semana.2 }}</small></h3>
+                <h3>Quarta-feira
+                    <small>{{ request.session.datas_semana.2 }}</small>
+                </h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_quarta%}
+                {% if request.session.lembretes_quarta %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_quarta %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_quarta %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_quarta%}
+                        {% endfor request.session.lembretes_quarta %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_quarta|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_quarta|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_quarta %}
                         <li class="list-group-item">
@@ -169,45 +211,58 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para quarta!</p></li>
-                    {% endfor tarefas_quarta%}
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para quarta!</p></li>
+                    {% endfor tarefas_quarta %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
             <!-- fim QUARTA -->
+        </div>
+        <div class="clearfix"></div>
 
-            <div class="clearfix"></div>
-
+        <div id="row">
             <!-- QUINTA -->
             <!-- Lembretes  -->
             <div class="col-md-4 nopadding">
-                <h3>Quinta-feira <small>{{ request.session.datas_semana.3 }}</small></h3>
+                <h3>Quinta-feira
+                    <small>{{ request.session.datas_semana.3 }}</small>
+                </h3>
                 <!-- Lembretes -->
-                {% if request.session.lembretes_quinta  %}
+                {% if request.session.lembretes_quinta %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_quinta   %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_quinta %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_quinta  %}
+                        {% endfor request.session.lembretes_quinta %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_quinta|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_quinta|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
-                    {% for tarefa in request.session.tarefas_quinta  %}
+                    {% for tarefa in request.session.tarefas_quinta %}
                         <li class="list-group-item">
                             <div class="titulo-tarefa ">
                                 {% if tarefa.status == 0 %}
@@ -216,15 +271,20 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para quinta!</p></li>
-                    {% endfor tarefas_quinta  %}
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para quinta!</p></li>
+                    {% endfor tarefas_quinta %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
@@ -233,24 +293,31 @@
             <!-- SEXTA -->
             <!-- Lembretes  -->
             <div class="col-md-4">
-                <h3>Sexta-feira <small>{{ request.session.datas_semana.4 }}</small></h3>
+                <h3>Sexta-feira
+                    <small>{{ request.session.datas_semana.4 }}</small>
+                </h3>
                 <!-- Lembretes -->
                 {% if request.session.lembretes_sexta %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_sexta  %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_sexta %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_sexta %}
+                        {% endfor request.session.lembretes_sexta %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_sexta|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_sexta|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_sexta %}
                         <li class="list-group-item">
@@ -261,14 +328,19 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para sexta!</p></li>
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para sexta!</p></li>
                     {% endfor tarefas_sexta %}
                 </ul>
                 <!-- fim Tarefas -->
@@ -278,24 +350,31 @@
             <!-- SÁBADO -->
             <!-- Lembretes  -->
             <div class="col-md-4">
-                <h3>Sábado <small>{{ request.session.datas_semana.5 }}</small></h3>
+                <h3>Sábado
+                    <small>{{ request.session.datas_semana.5 }}</small>
+                </h3>
                 <!-- Lembretes -->
                 {% if request.session.lembretes_sabado %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_sabado  %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_sabado %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_sabado %}
+                        {% endfor request.session.lembretes_sabado %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_sabado|default_if_none:"00:00:00" }}</strong></small>
+                <small>Tarefas: <strong>{{ request.session.total_horas_sabado|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_sabado %}
                         <li class="list-group-item">
@@ -306,43 +385,56 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para sábado!</p></li>
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para sábado!</p></li>
                     {% endfor tarefas_sabado %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
             <!-- fim SÁBADO -->
+        </div> <!-- fim row -->
 
-            <div class="clearfix"></div>
-
+        <div id="row">
             <!-- DOMINGO -->
             <!-- Lembretes  -->
             <div class="col-md-4 nopadding">
-                <h3>Domingo <small>{{ request.session.datas_semana.6 }}</small></h3>
+                <h3>Domingo
+                    <small>{{ request.session.datas_semana.6 }}</small>
+                </h3>
                 <!-- Lembretes -->
                 {% if request.session.lembretes_domingo %}
                     <ul class="list-group">
                         <small>Lembretes:</small>
-                    {% for lembrete in request.session.lembretes_domingo  %}
-                        <li class="list-group-item"><div class="titulo-tarefa">{{ lembrete.titulo }}</div>
-                            <a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span class="glyphicon glyphicon-remove"></span> </a>
-                        </li>
+                        {% for lembrete in request.session.lembretes_domingo %}
+                            <li class="list-group-item">
+                                <div class="titulo-tarefa">{{ lembrete.titulo }}</div>
+                                <a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs pull-right espaco" title="Excluir lembrete!"><span
+                                        class="glyphicon glyphicon-remove"></span> </a>
+                            </li>
                         {% empty %}
                             <small>Não há lembretes</small>
-                    {% endfor request.session.lembretes_domingo %}
+                        {% endfor request.session.lembretes_domingo %}
                     </ul>
                 {% endif %}
                 <!-- fim Lembretes -->
 
                 <!-- Tarefas -->
-                <small>Tarefas: <strong>{{ request.session.total_horas_domingo|default_if_none:"00:00:00" }}</strong></small>
+                <!-- todo revisar porque o domingo não está exibidno o horário -->
+                <small>Tarefas: <strong>{{ request.session.total_horas_domingo|default_if_none:"00:00:00" }}</strong>
+                </small>
                 <ul class="list-group">
                     {% for tarefa in request.session.tarefas_domingo %}
                         <li class="list-group-item">
@@ -353,27 +445,30 @@
                                     <del>{{ tarefa.titulo }}</del>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span class="glyphicon glyphicon-remove"></span> </a>
+                            <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                               onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                               class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
+                                    class="glyphicon glyphicon-remove"></span> </a>
                             <form action="{% url 'editar_tarefa' %}" method="get" role="form" class="pull-right">
-                                <input type="hidden" name="url" value="semana.html" />
-                                <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <input type="hidden" name="url" value="semana.html"/>
+                                <button type="submit" name="id" value="{{ tarefa.id }}"
+                                        class="btn btn-info btn-xs pull-right"><span
+                                        class="glyphicon glyphicon-pencil"></span></button>
                             </form>
                         </li>
-                        {% empty %}
-                            <li class="list-group-item"><p class="text-warning">Nenhuma tarefa para domingo!</p></li>
+                    {% empty %}
+                        <li class="list-group-item"><p class="text-muted">Nenhuma tarefa para domingo!</p></li>
                     {% endfor tarefas_domingo %}
                 </ul>
                 <!-- fim Tarefas -->
             </div>
             <!-- fim DOMINGO -->
-
-
         </div>
         <hr>
         {% with url='semana.html' %}
             {% include 'includes/modals.html' %}
         {% endwith %}
-    </div><!-- fecha col-md -->
 
-</div>
+
+    </div> <!-- fim container -->
 {% endblock corpo %}
