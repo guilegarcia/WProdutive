@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Produtiver - Sistema de produtividade</title>
+{% endblock title %}
+
+{% block menu-topo %}
+    <div class="navbar navbar-inverse navbar-static-top">
+        <!-- Inic�o do menu topo -->
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" contenteditable="true">Produtiver</a>
+                <!-- Mobile -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- fim Mobile -->
+            </div>
+            <div class="collapse navbar-collapse navbar-ex1-collapse" id="navigationbar">
+                <ul class="nav navbar-left navbar-nav">
+                    <!-- <li class="">
+                        <a href="#"><span class="glyphicon glyphicon-home"></span> Inicio</a>
+                    </li> -->
+                    <li class="">
+                        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li class="">
+                        <a href="{% url 'criar_usuario' %}"><span class="glyphicon glyphicon-plus"></span>
+                            Cadastre-se</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- fim Menu do topo -->
+        </div>
+    </div>
+{% endblock menu-topo %}
+{% block corpo %}
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Jumbotron Header -->
+        <header class="jumbotron hero-spacer">
+            <h1>Melhore sua produtividade</h1>
+            <p>O Produtive é um sistema de produtividade onde você pode gerenciar as suas tarefas. Nosso sistema é o
+                melhor em melhorar a sua produtividade pois implementa os conceitos das melhores métodologias de
+                produtividade em um só sistema.</p>
+            <p><a href="{% url 'criar_usuario' %}" class="btn btn-primary btn-large">Cadastre-se grátis!</a>
+            </p>
+        </header>
+
+        <hr>
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Porque escolher o Produtiver</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+
+
+        <!-- Page Features -->
+        <div id="row">
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <i class="glyphicon glyphicon-calendar" style="font-size: 5em;"></i>
+                        <h3>Gerencia de tarefas</h3>
+                        <p>As tarefas são organizadas em projetos e papéis, além disso pode-se priorizar e repetir
+                            tarefas
+                            sequencialmente.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
+                            Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Visão semanal</h3>
+                        <p>Você pode visualizar todas as tarefas de uma determinada semana. É possível visualizar a
+                            quantidade de horas alocadas para cada dia, isso possibilita uma melhor gerencia do
+                            tempo.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
+                            Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Organização de tarefas</h3>
+                        <p>As tarefas são organizadas em projetos e papéis, além disso pode-se priorizar e repetir
+                            tarefas
+                            sequencialmente.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
+                            Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://placehold.it/800x500" alt="">
+                    <div class="caption">
+                        <h3>Gerencia de lembretes</h3>
+                        <p>Você possui algo em que precisa lembrar, mas não querer nenhuma ação? Basta criar
+                            lembretes.</p>
+                        <p>
+                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More
+                            Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Produtiver {% now "Y" %}</p>
+                </div>
+            </div>
+        </footer>
+
+
+    </div><!-- /.container -->
+
+{% endblock corpo %}

@@ -20,7 +20,8 @@ from sistema import views as views_sistema
 from usuarios import views as views_usuarios
 
 urlpatterns = [
-    url(r'^$', views_sistema.dia, name='dia'),
+    url(r'^$', views_sistema.index, name='index'),
+    url(r'^dia/$', views_sistema.dia, name='dia'),
     url(r'^semana/$', views_sistema.semana, name='semana'),
     url(r'^tarefas/', include('tarefas.urls')),
     url(r'^projetos/', include('projetos.urls')),

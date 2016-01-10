@@ -9,6 +9,12 @@ from lembretes.models import Lembrete
 from sistema.forms import DiaForm, SemanaForm
 from tarefas.models import Tarefa
 
+# Index
+def index(request):
+    """
+    Exibe a página inicial do sistema
+    """
+    return render(request, "index.html")
 
 # Dia
 @login_required()

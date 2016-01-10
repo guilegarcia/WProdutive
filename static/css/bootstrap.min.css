@@ -14,3 +14,18 @@
 .nopadding {
     padding-left: 0 !important;
     padding-right: 40px; }
+
+/* Utilizado pelo tema da index.html */
+.hero-spacer {
+    margin-top: 10px;
+}
+
+.hero-feature {
+    margin-bottom: 30px;
+    padding-left: 0 !important;
+    padding-right: 40px;
+}
+
+footer {
+    margin: 50px 0;
+}
