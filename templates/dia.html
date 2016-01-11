@@ -35,32 +35,7 @@
                 {% include 'includes/botao-adicionar.html' %}
                 <!-- fim Botão adicionar -->
             </div>
-            <!-- Próximo dia e Anterior « -->
-            <div class="row">
-                <ul class="pager">
-                    <div class="pull-left">
-                        <!-- Próximo -->
-                        <form action="/" method="post" role="form">{% csrf_token %}
-                            <input type="hidden" name="ant_prox" value="anterior"/>
-                            <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
-                            <li class="next">
-                                <button type="submit" class="btn btn-default">« Dia anterior</button>
-                            </li>
-                        </form>
-                    </div>
-                    <div class="pull-right">
-                        <!-- Anterior -->
-                        <form action="/" method="post" role="form">{% csrf_token %}
-                            <input type="hidden" name="ant_prox" value="proximo"/>
-                            <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
-                            <li class="next">
-                                <button type="submit" class="btn btn-default">Próximo dia »</button>
-                            </li>
-                        </form>
-                    </div>
-                </ul>
-            </div>
-            <!-- Fim próximo dia Anteior -->
+
             <br/>
             <!-- Tarefas do dia -->
             <div class="row">
@@ -71,7 +46,10 @@
                         {% for lembrete in lista_lembretes %}
                             <tr>
                                 <td>{{ lembrete.titulo }}</td>
-                                <td><a href="{% url 'excluir_lembrete' lembrete.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs" title="Excluir lembrete"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                <td><a href="{% url 'excluir_lembrete' lembrete.id %}"
+                                       onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                       class="btn btn-danger btn-xs" title="Excluir lembrete"><span
+                                        class="glyphicon glyphicon-trash"></span></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -95,7 +73,8 @@
                         <tr>
                             <!-- PENDENTES -->
                             {% if tarefa.status == 0 %}
-                                <td><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</td>
+                                <td><input class="checkTarefa" type="checkbox"
+                                           idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</td>
                                 <td>{{ tarefa.duracao|default_if_none:"0:00:00" }}</td>
                                 <td>
                                     {{ tarefa.data|date:'Y-m-d' }}
@@ -123,7 +102,9 @@
                                 <td><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}" checked/>
                                     <del>{{ tarefa.titulo }}</del>
                                 </td>
-                                <td><del>{{ tarefa.duracao|default_if_none:"0:00:00" }}</del></td>
+                                <td>
+                                    <del>{{ tarefa.duracao|default_if_none:"0:00:00" }}</del>
+                                </td>
                                 <td>
                                     <del>
                                         {{ tarefa.data|date:'Y-m-d' }}
@@ -136,26 +117,36 @@
                                 </td>
 
                                 {% if tarefa.projeto.nome %}
-                                    <td><del>{{ tarefa.projeto.nome }}</del></td>
+                                    <td>
+                                        <del>{{ tarefa.projeto.nome }}</del>
+                                    </td>
                                 {% else %}
-                                    <td><del>Nenhum</del></td>
+                                    <td>
+                                        <del>Nenhum</del>
+                                    </td>
                                 {% endif %}
 
                                 {% if tarefa.papel.nome %}
-                                    <td><del>{{ tarefa.papel.nome }}</del></td>
+                                    <td>
+                                        <del>{{ tarefa.papel.nome }}</del>
+                                    </td>
                                 {% else %}
-                                    <td><del>Nenhum</del></td>
+                                    <td>
+                                        <del>Nenhum</del>
+                                    </td>
                                 {% endif %}
 
                             {% endif %}
 
                             <!-- ATRASADAS -->
                             {% if tarefa.status == 2 %}
-                                <td><p class="text-danger"><input class="checkTarefa" type="checkbox" idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</p></td>
+                                <td><p class="text-danger"><input class="checkTarefa" type="checkbox"
+                                                                  idTarefa="{{ tarefa.id }}"/> {{ tarefa.titulo }}</p>
+                                </td>
                                 <td><p class="text-danger">{{ tarefa.duracao|default_if_none:"0:00:00" }}</p></td>
                                 <td>
                                     <p class="text-danger">
-                                        {{ tarefa.data|date:'Y-m-d'  }}
+                                        {{ tarefa.data|date:'Y-m-d' }}
                                     </p>
                                 </td>
                                 <td>
@@ -183,12 +174,17 @@
                             <!-- Botões Editar e Remover -->
                             <td>
                                 <form action="{% url 'editar_tarefa' %}" method="get" role="form">
-                                    <input type="hidden" name="url" value="dia.html" />
-                                    <button type="submit" name="id" value="{{ tarefa.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <input type="hidden" name="url" value="dia.html"/>
+                                    <button type="submit" name="id" value="{{ tarefa.id }}"
+                                            class="btn btn-info btn-xs pull-right"><span
+                                            class="glyphicon glyphicon-pencil"></span></button>
                                 </form>
                             </td>
                             <td>
-                                <a href="{% url 'excluir_tarefa' tarefa.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger btn-xs" title="Excluir tarefa!"><span class="glyphicon glyphicon-trash"></span></a>
+                                <a href="{% url 'excluir_tarefa' tarefa.id %}"
+                                   onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                                   class="btn btn-danger btn-xs" title="Excluir tarefa!"><span
+                                        class="glyphicon glyphicon-trash"></span></a>
                             </td>
                             <!-- Fim Botões Editar e Remover -->
                         </tr>
@@ -221,17 +217,45 @@
 
                 <!-- Progresso bar -->
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progresso }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progresso }};">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ progresso }}" aria-valuemin="0"
+                         aria-valuemax="100" style="width: {{ progresso }};">
                         {{ progresso }}
                     </div>
                 </div>
                 <!-- fim progresso bar -->
+
+                <!-- Próximo dia e Anterior « -->
+                <div class="row">
+                    <ul class="pager">
+                        <div class="pull-left">
+                            <!-- Próximo -->
+                            <form action="{% url 'dia' %}" method="post" role="form">{% csrf_token %}
+                                <input type="hidden" name="ant_prox" value="anterior"/>
+                                <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
+                                <li class="next">
+                                    <button type="submit" class="btn btn-default">« Dia anterior</button>
+                                </li>
+                            </form>
+                        </div>
+                        <div class="pull-right">
+                            <!-- Anterior -->
+                            <form action="{% url 'dia' %}" method="post" role="form">{% csrf_token %}
+                                <input type="hidden" name="ant_prox" value="proximo"/>
+                                <input type="hidden" name="data" value="{{ data|date:'Y-m-d' }}"/>
+                                <li class="next">
+                                    <button type="submit" class="btn btn-default">Próximo dia »</button>
+                                </li>
+                            </form>
+                        </div>
+                    </ul>
+                </div>
+                <!-- Fim próximo dia Anteior -->
+
                 <hr>
                 <!-- Seta a página que chamou o modal -->
-
                 <!-- Importa todos os modals -->
-                {% with url='dia.html'  %}
-                {% include 'includes/modals.html' %}
+                {% with url='dia.html' %}
+                    {% include 'includes/modals.html' %}
                 {% endwith %}
             </div>
         </div>

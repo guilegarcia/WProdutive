@@ -25,34 +25,6 @@
             </div>
         </div>
 
-        <!-- Próxima semana e Anterior « -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="pager">
-                    <div class="pull-left">
-                        <!-- Próximo -->
-                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
-                            <input type="hidden" name="ant_prox" value="anterior"/>
-                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
-                            <li class="next">
-                                <button type="submit" class="btn btn-default">« Semana anterior</button>
-                            </li>
-                        </form>
-                    </div>
-                    <div class="pull-right">
-                        <!-- Anterior -->
-                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
-                            <input type="hidden" name="ant_prox" value="proxima"/>
-                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
-                            <li class="next">
-                                <button type="submit" class="btn btn-default">Próximo semana »</button>
-                            </li>
-                        </form>
-                    </div>
-                </ul>
-            </div>
-        </div>
-
         <!-- SEMANA -->
         <div id="row">
             <div id="col-md-12"><h1>Semana</h1></div>
@@ -464,6 +436,36 @@
             </div>
             <!-- fim DOMINGO -->
         </div>
+
+        <!-- Próxima semana e Anterior « -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="pager">
+                    <div class="pull-left">
+                        <!-- Próximo -->
+                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="anterior"/>
+                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">« Semana anterior</button>
+                            </li>
+                        </form>
+                    </div>
+                    <div class="pull-right">
+                        <!-- Anterior -->
+                        <form action="{% url 'semana' %}" method="post" role="form"> {% csrf_token %}
+                            <input type="hidden" name="ant_prox" value="proxima"/>
+                            <input type="hidden" name="data" value="{{ data_semana|date:'Y-m-d' }}"/>
+                            <li class="next">
+                                <button type="submit" class="btn btn-default">Próximo semana »</button>
+                            </li>
+                        </form>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <!-- Fim Próxima semana e Anterior -->
+
         <hr>
         {% with url='semana.html' %}
             {% include 'includes/modals.html' %}

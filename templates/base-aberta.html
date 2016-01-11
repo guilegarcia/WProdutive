@@ -37,13 +37,13 @@
                 <!-- fim Mobile -->
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse" id="navigationbar">
-                <ul class="nav navbar-left navbar-nav">
-                    <li class="{{ login_active }}">
-                        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                    </li>
+                <ul class="nav navbar-right navbar-nav">
                     <li class="{{ cadastro_active }}">
                         <a href="{% url 'criar_usuario' %}"><span class="glyphicon glyphicon-plus"></span>
                             Cadastre-se</a>
+                    </li>
+                    <li class="{{ login_active }}">
+                        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                     </li>
                 </ul>
             </div>

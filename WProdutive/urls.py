@@ -34,5 +34,6 @@ urlpatterns = [
     # Login autentificacao
     # url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
     url(r'^login/$', views_usuarios.fazer_login, name='login'),
-    url(r'^logout/$', logout_then_login, {'login_url': '/login/'}),
+    # url(r'^logout/$', logout_then_login, {'login_url': '/login/'}),
+    url(r'^sair/$', logout_then_login, {'login_url': '/login/'}, name='logout'),
 ]
