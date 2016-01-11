@@ -1,42 +1,9 @@
-{% extends "base.html" %}
+{% extends "base-aberta.html" %}
 {% block title %}
     <title>Produtiver - Sistema de produtividade</title>
 {% endblock title %}
 
-{% block menu-topo %}
-    <div class="navbar navbar-inverse navbar-static-top">
-        <!-- Inic�o do menu topo -->
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" contenteditable="true">Produtiver</a>
-                <!-- Mobile -->
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- fim Mobile -->
-            </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse" id="navigationbar">
-                <ul class="nav navbar-left navbar-nav">
-                    <!-- <li class="">
-                        <a href="#"><span class="glyphicon glyphicon-home"></span> Inicio</a>
-                    </li> -->
-                    <li class="">
-                        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                    </li>
-                    <li class="">
-                        <a href="{% url 'criar_usuario' %}"><span class="glyphicon glyphicon-plus"></span>
-                            Cadastre-se</a>
-                    </li>
-                </ul>
-
-            </div>
-            <!-- fim Menu do topo -->
-        </div>
-    </div>
-{% endblock menu-topo %}
+{
 {% block corpo %}
     <!-- Page Content -->
     <div class="container">
