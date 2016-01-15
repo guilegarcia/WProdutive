@@ -16,16 +16,8 @@
     padding-right: 40px; }
 
 /* Utilizado pelo tema da index.html */
-.hero-spacer {
-    margin-top: 10px;
-}
-
-.hero-feature {
-    margin-bottom: 30px;
-    padding-left: 0 !important;
-    padding-right: 40px;
-}
-
-footer {
-    margin: 50px 0;
-}
+.hero-spacer {  margin-top: 10px;  }
+.hero-feature {  margin-bottom: 30px;  padding-left: 0 !important;  padding-right: 40px; padding-top:20px; }
+.hero-feature i {  display:block;  text-align:center; color: #5e5e5e;}
+footer {  margin: 50px 0;  }
+.big-icon {font-size: 5em; }

@@ -13,6 +13,28 @@ def criar_tarefa(request):
     if request.method == 'POST':
         form = TarefaForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data['repeticao']:
+                form.repeat()
+                messages.success(request, 'Você criou novas tarefas!')
+            else:
+                messages.success(request, 'Você criou uma nova tarefa!')
+            form.save()
+            # todo atualizar lista da session (semana.html) * mas e o redirect já não basta?
+            # todo criar repetições
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'Por favor, digite todos os campos obrigatórios para criar a tarefa!')
+            return render(request, request.POST['url'], {'abrir_modal_tarefa': 'in', 'form': form})
+    else:
+        form = TarefaForm
+        return render(request, 'dia.html', {'form': form})
+
+""" Backup criar_tarefa
+@login_required()
+def criar_tarefa(request):
+    if request.method == 'POST':
+        form = TarefaForm(request.POST)
+        if form.is_valid():
             form.save()
             messages.success(request, 'Tarefa adicionada com sucesso')
             # todo atualizar lista da session
@@ -24,6 +46,7 @@ def criar_tarefa(request):
     else:
         form = TarefaForm
         return render(request, 'dia.html', {'form': form})
+"""
 
 
 @login_required()
@@ -81,7 +104,7 @@ def alterar_status(request):
         if request.POST['estado'] == 'marcado':
             tarefa.status = 1
             tarefa.save()
-            mensagem = 'Tarefa concluída com sucesso!'
+            mensagem = 'Parabéns! Você concluiu mais uma tarefa!'
         else:
             tarefa.status = 0
             tarefa.save()

@@ -49,7 +49,6 @@ function mudou() {
 <!-- todo testar ajaxSubmit malsup.com/jquery/form   jsfiddle.net/hRTcE/ -->
 
 // Editar projeto
-<!-- todo adicionar o botão editar em projetos.html e adaptar views.py -->
 function editar_projeto(id){
     event.preventDefault();
     var csrftoken = getCookie('csrftoken');
@@ -69,3 +68,35 @@ function editar_projeto(id){
     });
 }
 
+// Editar tarefa
+function editar_tarefa(id){
+    event.preventDefault();
+    var csrftoken = getCookie('csrftoken');
+
+    $.get("/tarefas/editar/", { id: id, csrfmiddlewaretoken: csrftoken}, function(data){
+     try{
+         // dados = $.parseJSON(data);
+         $("#id_titulo_tarefa").val(data.nome);
+         $("#id_descricao_tarefa").val(data.descricao);
+         $("#id_data_tarefa").val(data.data);
+         $("#id_hora_tarefa").val(data.hora);
+         $("#id_duracao_tarefa").val(data.duracao);
+         $("#id_prioridade_tarefa").val(data.prioridade);
+         $("#id_papel_tarefa").val(data.papel);
+         $("#id_projeto_tarefa").val(data.projeto);
+         $("#id_usuario_tarefa").val(data.usuario.id);
+         $("#id_id_tarefa").val(data.id);
+
+         /*
+            * id_repeticao_tarefa
+            * numRepeticoes
+            id_url_tarefa (acho que não precisa, pois já tem a url no contexto do template
+         */
+         $("#criar_editar_tarefa").attr('action', '/tarefas/editar/');
+         $('#criarTarefa').modal('show');
+
+     } catch(e){
+          console.log(data);
+     }
+    });
+}

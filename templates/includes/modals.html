@@ -12,10 +12,10 @@
                 <form action="{% if editar_tarefa %}{% url 'editar_tarefa' %}{% else %}{% url 'criar_tarefa' %}{% endif %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-2">
-                            <label for="id_titulo" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
+                            <label for="id_titulo_tarefa" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
                         </div>
                         <div class="col-sm-10">
-                            <input name="titulo" type="text" class="form-control" value="{{ form.titulo.value }}" maxlength="200" id="id_titulo" placeholder="Escreva o título da tarefa..">
+                            <input name="titulo" type="text" class="form-control" value="{{ form.titulo.value }}" maxlength="200" id="id_titulo_tarefa" placeholder="Escreva o título da tarefa..">
                             {% for error in form.titulo.errors %}
                                 <p class="text-danger">{{ error|escape }}</p>
                             {% endfor %}
@@ -23,10 +23,10 @@
                     </div>
                     <div class="form-group has-feedback">
                         <div class="col-sm-2">
-                            <label for="id_descricao" class="control-label">Descrição</label>
+                            <label for="id_descricao_tarefa" class="control-label">Descrição</label>
                         </div>
                         <div class="col-sm-10">
-                            <textarea name="descricao" id="id_descricao" class="form-control" rows="4" placeholder="Descrição da tarefa..">{{ form.descricao.value }}</textarea>
+                            <textarea name="descricao" id="id_descricao_tarefa" class="form-control" rows="4" placeholder="Descrição da tarefa..">{{ form.descricao.value }}</textarea>
                             {% for error in form.descricao.errors %}
                                 <p class="text-danger">{{ error|escape }}</p>
                             {% endfor %}
@@ -37,11 +37,11 @@
                     <div class="form-group">
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_data" class="control-label">Data <abbr title="Campo obrigatório">*</abbr></label>
+                                <label for="id_data_tarefa" class="control-label">Data <abbr title="Campo obrigatório">*</abbr></label>
                             </div>
                             <div class="col-sm-4">
                                 <!-- todo setar valor default com o now-->
-                                <input name="data" type="Date" value="{% now  "Y-m-d" %}" class="form-control">
+                                <input id="id_data_tarefa" name="data" type="Date" value="{% now  "Y-m-d" %}" class="form-control">
                                 {% comment if form.data.value %}
                                     <input name="data" type="Date" value="{{ form.data.value|date:'Y-m-d' }}" class="form-control">
                                 {% else %}
@@ -57,13 +57,13 @@
                         <!-- Hora -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_hora" class="control-label">Hora</label>
+                                <label for="id_hora_tarefa" class="control-label">Hora</label>
                             </div>
                             <div class="col-sm-4">
                                 {% if form.hora.value %}
-                                <input name="hora" type="Time" value="{{ form.hora.value|time:"H:i" }}" class="form-control" id="id_hora">
+                                <input name="hora" type="Time" value="{{ form.hora.value|time:"H:i" }}" class="form-control" id="id_hora_tarefa">
                                 {% else %}
-                                    <input name="hora" type="Time" class="form-control" id="id_hora">
+                                    <input name="hora" type="Time" class="form-control" id="id_hora_tarefa">
                                 {% endif %}
                                 {% for error in form.hora.errors %}
                                     <p class="text-danger">{{ error|escape }}</p>
@@ -79,13 +79,13 @@
                         <!-- Duração -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_duracao" class="control-label">Duração</label>
+                                <label for="id_duracao_tarefa" class="control-label">Duração</label>
                             </div>
                             <div class="col-sm-4">
                                 {% if form.duracao.value %}
-                                <input name="duracao" type="Time" value="{{ form.duracao.value|time:"H:i" }}" class="form-control" id="id_duracao">
+                                    <input name="duracao" type="Time" value="{{ form.duracao.value|time:"H:i" }}" class="form-control" id="id_duracao_tarefa">
                                 {% else %}
-                                    <input name="duracao" type="Time" class="form-control" id="id_duracao">
+                                    <input name="duracao" type="Time" class="form-control" id="id_duracao_tarefa">
                                 {% endif %}
                                 {% for error in form.duracao.errors %}
                                     <p class="text-danger">{{ error|escape }}</p>
@@ -96,10 +96,10 @@
                         <!-- Prioridade -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_prioridade" class="control-label">Prioridade</label>
+                                <label for="id_prioridade_tarefa" class="control-label">Prioridade</label>
                             </div>
                             <div class="col-sm-4">
-                                <select name="prioridade" class="form-control" id="prioridade">
+                                <select name="prioridade" class="form-control" id="id_prioridade_tarefa">
                                     {% if form.prioridade.value %}
                                         <option value="{{ form.prioridade.value }}" selected="">{{ form.prioridade.value }}</option>
                                     {% else %}
@@ -126,10 +126,11 @@
                     <div class="form-group">
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_papel" class="control-label">Papel</label>
+                                <label for="id_papel_tarefa" class="control-label">Papel</label>
                             </div>
                             <div class="col-sm-4">
-                                <select name="papel" class="form-control" style="width: 150px;" id="papel">
+                                <!-- todo remover o style inline -->
+                                <select name="papel" class="form-control" style="width: 150px;" id="id_papel_tarefa">
                                     <option value="" selected="" disabled="">Selecione</option>
                                     {% for papel in request.session.papeis %}
                                         <option value="{{ papel.id }}">{{ papel.nome }}</option>
@@ -142,10 +143,11 @@
                         <!-- Projeto -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_projeto" class="control-label" contenteditable="true">Projeto</label>
+                                <label for="id_projeto_tarefa" class="control-label" contenteditable="true">Projeto</label>
                             </div>
                             <div class="col-sm-4">
-                                <select name="projeto" class="form-control" style="width: 150px;" id="projeto">
+                                <!-- todo remover o style inline -->
+                                <select name="projeto" class="form-control" style="width: 150px;" id="id_projeto_tarefa">
                                     <!-- todo verificar se a tarefa possui projeto e imprimir nome e id como opção selecionada -->
                                     <option value="" selected="" disabled="">Selecione</option>
                                     {% for projeto in request.session.projetos %}
@@ -164,10 +166,10 @@
                     <div class="form-group">
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_repeticao" class="control-label">Repetir</label>
+                                <label for="id_repeticao_tarefa" class="control-label">Repetir</label>
                             </div>
                             <div class="col-sm-3">
-                                <select name="repeticao" class="form-control" id="id_repeticao">
+                                <select name="repeticao" class="form-control" id="id_repeticao_tarefa">
                                     <option value="" selected="" disabled="">Selecione</option>
                                     <option value="diario">Diariamente</option>
                                     <option value="semanal">Semanal</option>
@@ -179,18 +181,18 @@
                         <!-- Nùmero repetições -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <input name="numRepeticoes" type="number" placeholder="Número de repetições!" class="form-control">
+                                <input name="num_repeticao" type="number" placeholder="Número de repetições!" class="form-control">
                             </div>
                         </div>
                     </div>
                     <!-- fim repetir -->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <input type="hidden" name="usuario" value="{{ user.id }}">
+                            <input type="hidden" name="usuario" value="{{ user.id }}" id="id_usuario_tarefa">
                             {% if id_tarefa %}
-                                <input type="hidden" name="id" value="{{ id_tarefa }}">
+                                <input type="hidden" name="id" value="{{ id_tarefa }}" id="id_id_tarefa">
                             {% endif %}
-                            <input type="hidden" name="url" value="{{ url }}">
+                            <input type="hidden" name="url" value="{{ url }}" id="id_url_tarefa">
                             <button type="submit" class="btn btn-success">Cadastrar</button>
                         </div>
                     </div>
