@@ -29,6 +29,7 @@ def criar_tarefa(request):
         form = TarefaForm
         return render(request, 'dia.html', {'form': form})
 
+
 """ Backup criar_tarefa
 @login_required()
 def criar_tarefa(request):
@@ -59,21 +60,26 @@ def buscar_tarefas(request):
 def editar_tarefa(request):
     if request.method == 'GET':
         tarefa = get_object_or_404(Tarefa, id=request.GET['id'], usuario=request.user)
-        id_tarefa = tarefa.id
         form = TarefaForm(instance=tarefa)
     else:
         form = TarefaForm(request.POST)
+        tarefa = form  # Somente para referenciar antes de enviar via Json
         if form.is_valid():
             tarefa = form.save(commit=False)
             tarefa.id = form.cleaned_data['id']
             tarefa.save()
             messages.success(request, 'Tarefa atualizada com sucesso!')
             return redirect(request.POST['redirect'])
+        # todo criar else com abrir_modal para exibir o model com erro no formulario
             # todo inserir o redirect no form do modals.html
             # todo ou fazer por Ajax (melhor maneira) clica > abre modal > envia form * mas se for invalid? *else render (abrir_modal)
 
-    return render(request, request.GET['url'],
-                  {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
+    # return render(request, request.GET['url'],
+    #               {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
+    return JsonResponse(
+            {'titulo': tarefa.titulo, 'descricao': tarefa.descricao, 'data': tarefa.data, 'hora': tarefa.hora,
+             'duracao': tarefa.duracao, 'prioridade': tarefa.prioridade,
+             'papel': tarefa.papel, 'projeto': tarefa.projeto, 'usuario.id': tarefa.usuario.id, 'id': tarefa.id})
 
 
 """

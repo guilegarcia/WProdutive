@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -16,6 +17,8 @@ class Tarefa(models.Model):
     papel = models.ForeignKey(Papel, blank=True, null=True)
     projeto = models.ForeignKey(Projeto, blank=True, null=True)
     usuario = models.ForeignKey(User)
+    repetida = models.BooleanField(default=False) # Possui tarefas repetidas?
+    tarefa_original = models.ForeignKey('self', blank=True, null=True) # Esta tarefa repete outra?
 
     def __init__(self, *args, **kwargs):
         super(Tarefa, self).__init__(*args, **kwargs)

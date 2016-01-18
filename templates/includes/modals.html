@@ -1,5 +1,5 @@
 <!-- Modal Tarefa -->
-<div class="modal fade {{ abrir_modal_tarefa }}" id="criarTarefa">
+<div class="modal fade {{ abrir_modal_tarefa }}" id="criarTarefa" role="dialog" aria-labelledby="Criar e editar tarefa">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 <em>* itens obrigatórios!</em>
             </div>
             <div class="modal-body">
-                <form action="{% if editar_tarefa %}{% url 'editar_tarefa' %}{% else %}{% url 'criar_tarefa' %}{% endif %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
+                <form id="form_tarefa" action="{% if editar_tarefa %}{% url 'editar_tarefa' %}{% else %}{% url 'criar_tarefa' %}{% endif %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label for="id_titulo_tarefa" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
@@ -189,9 +189,12 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <input type="hidden" name="usuario" value="{{ user.id }}" id="id_usuario_tarefa">
+                            {% comment %}
                             {% if id_tarefa %}
                                 <input type="hidden" name="id" value="{{ id_tarefa }}" id="id_id_tarefa">
                             {% endif %}
+                            {% endcomment %}
+                            <input type="hidden" name="id" value="{{ form.id.value }}" id="id_id_tarefa">
                             <input type="hidden" name="url" value="{{ url }}" id="id_url_tarefa">
                             <button type="submit" class="btn btn-success">Cadastrar</button>
                         </div>
@@ -207,7 +210,7 @@
 <!-- fim Modal Tarefa -->
 
 <!-- Modal Criar Papel  -->
-<div class="modal fade {{ abrir_modal_papel }}" id="criarPapel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade {{ abrir_modal_papel }}" id="criarPapel" tabindex="-1" role="dialog" aria-labelledby="Criar e editar Papel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -256,8 +259,9 @@
     </div>
 </div>
 <!-- fim MODAL papel -->
+
 <!-- MODAL projeto  -->
-<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" data-keyboard="true" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" data-keyboard="true" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="Criar e editar projeto" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -308,7 +312,7 @@
 <!-- fim MODAL projeto -->
 
 <!-- Inicio MODAL Lembrete -->
-<div class="modal fade {{ abrir_modal_lembrete }}" id="criarLembrete">
+<div class="modal fade {{ abrir_modal_lembrete }}" id="criarLembrete" role="dialog" aria-labelledby="Criar e editar lembrete">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

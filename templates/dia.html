@@ -173,12 +173,15 @@
                             <!-- fim Verifica se a tarefa está concluída -->
                             <!-- Botões Editar e Remover -->
                             <td>
+                                <a href="" onclick="editar_tarefa({{ tarefa.id }})" role="button" class="btn btn-info btn-xs" title="Editar tarefa!"><span class="glyphicon glyphicon-pencil"></span></a>
+                                {% comment %}
                                 <form action="{% url 'editar_tarefa' %}" method="get" role="form">
                                     <input type="hidden" name="url" value="dia.html"/>
                                     <button type="submit" name="id" value="{{ tarefa.id }}"
                                             class="btn btn-info btn-xs pull-right"><span
                                             class="glyphicon glyphicon-pencil"></span></button>
                                 </form>
+                                {% endcomment %}
                             </td>
                             <td>
                                 <a href="{% url 'excluir_tarefa' tarefa.id %}"

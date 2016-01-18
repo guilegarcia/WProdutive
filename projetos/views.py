@@ -62,6 +62,7 @@ def editar_projeto(request):
             projeto.save()
             messages.success(request, 'Projeto atualizado com sucesso')
             return redirect('projetos')
+        # todo adicionar form_invalid passando o form e abrindo o modal
 
     return JsonResponse({'nome': projeto.nome, 'descricao': projeto.descricao, 'id': projeto.id})
     # return render(request, 'projetos.html', {'form': form, 'abrir_modal_projeto': 'in', 'editar_projeto': '/projetos/editar/'})

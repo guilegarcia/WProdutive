@@ -31,3 +31,4 @@ class TarefaForm(forms.ModelForm):
             tarefa = Tarefa(**datas)
             tarefa.id = None
             tarefa.save()
+

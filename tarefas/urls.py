@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     url(r'^criar/$', views.criar_tarefa, name='criar_tarefa'),
     url(r'^buscar/$', views.buscar_tarefas, name='buscar_tarefas'),
-    url(r'^editar-tarefa/$', views.editar_tarefa, name='editar_tarefa'),
+    url(r'^editar/$', views.editar_tarefa, name='editar_tarefa'),
     url(r'^excluir/(?P<id>\d+)/$', views.excluir_tarefa, name='excluir_tarefa'),
     url(r'^alterar-status$', views.alterar_status, name='alterar_status_tarefa'),
 ]

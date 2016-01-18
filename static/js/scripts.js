@@ -75,8 +75,10 @@ function editar_tarefa(id){
 
     $.get("/tarefas/editar/", { id: id, csrfmiddlewaretoken: csrftoken}, function(data){
      try{
+         $('#criarTarefa').modal('show');
+         $("#form_tarefa").attr('action', '/tarefas/editar/');
          // dados = $.parseJSON(data);
-         $("#id_titulo_tarefa").val(data.nome);
+         $("#id_titulo_tarefa").val(data.titulo);
          $("#id_descricao_tarefa").val(data.descricao);
          $("#id_data_tarefa").val(data.data);
          $("#id_hora_tarefa").val(data.hora);
@@ -87,13 +89,12 @@ function editar_tarefa(id){
          $("#id_usuario_tarefa").val(data.usuario.id);
          $("#id_id_tarefa").val(data.id);
 
+         /* todo problema: Ao abrir e preeencher o formulário com jquery fica o mesmo para Adicionar tarefa" */
          /*
             * id_repeticao_tarefa
             * numRepeticoes
             id_url_tarefa (acho que não precisa, pois já tem a url no contexto do template
          */
-         $("#criar_editar_tarefa").attr('action', '/tarefas/editar/');
-         $('#criarTarefa').modal('show');
 
      } catch(e){
           console.log(data);
