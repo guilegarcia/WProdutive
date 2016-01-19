@@ -1,53 +1,42 @@
 # -*- encoding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView
 
 from tarefas.forms import TarefaForm
 from tarefas.models import Tarefa
 
 
-@login_required()
-def criar_tarefa(request):
-    if request.method == 'POST':
-        form = TarefaForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data['repeticao']:
-                form.repeat()
-                messages.success(request, 'Você criou novas tarefas!')
-            else:
-                messages.success(request, 'Você criou uma nova tarefa!')
-            form.save()
-            # todo atualizar lista da session (semana.html) * mas e o redirect já não basta?
-            # todo criar repetições
-            return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            messages.error(request, 'Por favor, digite todos os campos obrigatórios para criar a tarefa!')
-            return render(request, request.POST['url'], {'abrir_modal_tarefa': 'in', 'form': form})
-    else:
-        form = TarefaForm
-        return render(request, 'dia.html', {'form': form})
+@method_decorator(login_required, name='dispatch')
+class TarefaCreate(SuccessMessageMixin, CreateView):
+    """
+    Cria a tarefa e suas repetições
+    """
+    form_class = TarefaForm
+    template_name = 'includes/modals.html'
 
-
-""" Backup criar_tarefa
-@login_required()
-def criar_tarefa(request):
-    if request.method == 'POST':
-        form = TarefaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Tarefa adicionada com sucesso')
-            # todo atualizar lista da session
-            # todo criar repetições
-            return redirect(request.META.get('HTTP_REFERER'))
+    def form_valid(self, form):
+        # Verifica se possui repetições
+        if form.cleaned_data['repeticao']:
+            # Chama o método para repetir tarefa
+            tarefa = form.save(commit=False)
+            form.repeat()  # método para repetir
+            tarefa.repetida = True
+            tarefa.save()
+            messages.success(self.request, 'Você criou novas tarefas!')
         else:
-            messages.error(request, 'Formulário não é válido!')
-            return render(request, request.POST['url'], {'abrir_modal_tarefa': 'in', 'form': form})
-    else:
-        form = TarefaForm
-        return render(request, 'dia.html', {'form': form})
-"""
+            messages.success(self.request, 'Você criou uma nova tarefa!')
+        return redirect(self.request.META.get('HTTP_REFERER'))
+
+    # todo fazer todo o createview com jquery pois se não apaga as tarefas ao dar form_invalid
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        context['abrir_modal_tarefa'] = 'in' # Abre o modal boostrap
+        return render(self.request, self.request.POST['url'], context)
 
 
 @login_required()
@@ -70,7 +59,7 @@ def editar_tarefa(request):
             tarefa.save()
             messages.success(request, 'Tarefa atualizada com sucesso!')
             return redirect(request.POST['redirect'])
-        # todo criar else com abrir_modal para exibir o model com erro no formulario
+            # todo criar else com abrir_modal para exibir o model com erro no formulario
             # todo inserir o redirect no form do modals.html
             # todo ou fazer por Ajax (melhor maneira) clica > abre modal > envia form * mas se for invalid? *else render (abrir_modal)
 

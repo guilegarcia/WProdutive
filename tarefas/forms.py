@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+import copy
+from datetime import timedelta
 from django import forms
 
 from tarefas.models import Tarefa
@@ -26,9 +28,27 @@ class TarefaForm(forms.ModelForm):
         datas = data.copy()
         del datas['repeticao'], datas['num_repeticao'], datas['url']
 
-        # todo verificar se é diário, semanal, mensal ou anual.
-        for x in range(1, data['num_repeticao']):
-            tarefa = Tarefa(**datas)
-            tarefa.id = None
-            tarefa.save()
+        # Verifica qual é o tipo de repetição
+        if data['repeticao'] == 'diario':
+            intervalo_dias = 1
+        elif data['repeticao'] == 'semanal':
+            intervalo_dias = 7
+        elif data['repeticao'] == 'mensal':
+            intervalo_dias = 28
+        else:
+            intervalo_dias = 365
 
+        # Cria a tarefa com base no formulario
+        tarefa_original = Tarefa(**datas)
+
+        # Faz uma cópia da tarefa original (sem referência)
+        tarefa = copy.copy(tarefa_original)
+
+        # todo verificar se esta tarefa tem id (setar repetida=True e adicionar FK nas outras)
+
+        # Cria as tarefas repetidas
+        for x in range(1, data['num_repeticao']):
+            tarefa.data = tarefa.data + timedelta(days=intervalo_dias)
+            tarefa.tarefa_original = tarefa_original
+            tarefa.id = None  # Força a adição de uma nova tarefa no DB
+            tarefa.save()
