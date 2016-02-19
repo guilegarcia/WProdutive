@@ -21,3 +21,32 @@
 .hero-feature i {  display:block;  text-align:center; color: #5e5e5e;}
 footer {  margin: 50px 0;  }
 .big-icon {font-size: 5em; }
+
+/* Tamanho do checkbox */
+.big-checkbox {width:17px; height:17px;  vertical-align: text-bottom;}
+
+/* Alinha verticalmente a tabela dia e adiciona margin */
+.table > tbody > tr > td {
+    vertical-align: middle; !important;
+    padding: 7px 0 7px 0;
+}
+
+/* Adiciona margin no input (dia.html) */
+td input[type="checkbox"] {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+/* validation AngularJS */
+.ng-invalid.ng-dirty {
+border-color: #FA787E; 
+}
+
+.ng-valid.ng-dirty {
+border-color: #78FA89;
+}
+
+/* Usado em dia.html (no lugar de <del>), tarefas concluídas */
+.concluida {
+    text-decoration: line-through;
+}

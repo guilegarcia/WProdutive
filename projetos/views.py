@@ -1,14 +1,77 @@
 # -*- encoding: utf-8 -*-
+import json
 from datetime import timedelta
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from rest_framework import mixins
+from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from projetos.forms import ProjetoForm
 from projetos.models import Projeto
+from projetos.serializers import ProjetoSerializer
 from tarefas.models import Tarefa
+
+
+class ProjetoList(viewsets.ModelViewSet):
+    """
+    Listar, editar, criar e deletar Projeto
+    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    """
+    queryset = Projeto.objects.all()
+    serializer_class = ProjetoSerializer
+    permission_classes = (IsAuthenticated,)
+
+    # TODO reescrever 'list' para inserir request.session['lista_projetos'] = lista_projetos
+    # def get(self, request, *args, **kwargs):
+    #     request.session['lista_projetos'] = Projeto.objects.all(usuario=request.user)
+    #     return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        """
+        Retorna a lista de projetos do usuário logado
+        """
+        user = self.request.user
+        return Projeto.objects.filter(usuario=user)
+    
+
+
+# REST
+# class ProjetoList2(mixins.ListModelMixin,
+#                    mixins.CreateModelMixin,
+#                    generics.GenericAPIView, mixins.DestroyModelMixin):  # todo substituir por viewsets.ModelViewSet
+#     queryset = Projeto.objects.all()
+#     serializer_class = ProjetoSerializer
+#     permission_classes = (IsAuthenticated,)
+#
+#     # Gera uma lista de projetos
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
+#
+#     # Cria um novo projeto #todo teste criação de projeto (nome, descricao, usuario)
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+#
+#     # Deleta um projeto
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+#
+#     def get_queryset(self):
+#         """
+#         Retorna a lista de projetos do usuário logado
+#         """
+#         user = self.request.user
+#         return Projeto.objects.filter(usuario=user)
+#
+#     def pre_save(self, obj):
+#         """
+#         Salve o usuário logado como dono do projeto
+#         """
+#         obj.usuario = self.request.user
 
 
 @login_required()
@@ -55,14 +118,14 @@ def editar_projeto(request):
         form = ProjetoForm(instance=projeto)
     else:
         form = ProjetoForm(request.POST)
-        projeto = form # somente para enviar projeto no response
+        projeto = form  # somente para enviar projeto no response
         if form.is_valid():
             projeto = form.save(commit=False)
             projeto.id = form.cleaned_data['id']
             projeto.save()
             messages.success(request, 'Projeto atualizado com sucesso')
             return redirect('projetos')
-        # todo adicionar form_invalid passando o form e abrindo o modal
+            # todo adicionar form_invalid passando o form e abrindo o modal
 
     return JsonResponse({'nome': projeto.nome, 'descricao': projeto.descricao, 'id': projeto.id})
     # return render(request, 'projetos.html', {'form': form, 'abrir_modal_projeto': 'in', 'editar_projeto': '/projetos/editar/'})

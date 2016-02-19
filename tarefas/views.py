@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from datetime import date, datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -6,9 +7,51 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from tarefas.forms import TarefaForm
 from tarefas.models import Tarefa
+from tarefas.serializers import TarefaSerializer
+
+
+class TarefaViewSet(viewsets.ModelViewSet):
+    """
+    Listar, editar, criar e deletar
+    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    """
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """
+        Retorna a lista de tarefas do usuário logado e a data atual, junto com as tarefas atrasadas (se o data for hoje)
+        """
+        user = self.request.user
+        # Se não possui data (lista para editar ou excluir)
+        if self.request.query_params.get('data') is None:
+            lista_tarefas = Tarefa.objects.filter(usuario=user)
+
+        # Se possui data (dia.html)
+        else:
+            # Recebe a data convertida em date
+            data = datetime.strptime(self.request.query_params.get('data', None), '%Y-%m-%d')
+
+            # Lista as tarefas por ordem de prioridade
+            lista_tarefas = list(Tarefa.objects.filter(data=data, usuario=user).order_by('prioridade'))
+
+            # Tarefas atrasadas (somente para o dia atual)
+            if data.date() == date.today():
+                # Recebe as tarefas atrasadas (anteriores a hoje e com status 0)
+                tarefas_atrasadas = list(Tarefa.objects.filter(usuario=user, status=0, data__lt=data))
+
+                if tarefas_atrasadas:
+                    for x, tarefa in enumerate(tarefas_atrasadas):
+                        tarefas_atrasadas[x].status = 2
+                    lista_tarefas = lista_tarefas + tarefas_atrasadas
+
+        return lista_tarefas
 
 
 @method_decorator(login_required, name='dispatch')
@@ -24,18 +67,19 @@ class TarefaCreate(SuccessMessageMixin, CreateView):
         if form.cleaned_data['repeticao']:
             # Chama o método para repetir tarefa
             tarefa = form.save(commit=False)
-            form.repeat()  # método para repetir
             tarefa.repetida = True
             tarefa.save()
+            form.repetir(tarefa)  # método para repetir
             messages.success(self.request, 'Você criou novas tarefas!')
         else:
+            form.save()
             messages.success(self.request, 'Você criou uma nova tarefa!')
         return redirect(self.request.META.get('HTTP_REFERER'))
 
     # todo fazer todo o createview com jquery pois se não apaga as tarefas ao dar form_invalid
     def form_invalid(self, form):
         context = self.get_context_data()
-        context['abrir_modal_tarefa'] = 'in' # Abre o modal boostrap
+        context['abrir_modal_tarefa'] = 'in'  # Abre o modal boostrap
         return render(self.request, self.request.POST['url'], context)
 
 
@@ -49,26 +93,23 @@ def buscar_tarefas(request):
 def editar_tarefa(request):
     if request.method == 'GET':
         tarefa = get_object_or_404(Tarefa, id=request.GET['id'], usuario=request.user)
-        form = TarefaForm(instance=tarefa)
     else:
         form = TarefaForm(request.POST)
         tarefa = form  # Somente para referenciar antes de enviar via Json
         if form.is_valid():
             tarefa = form.save(commit=False)
-            tarefa.id = form.cleaned_data['id']
+            tarefa.pk = form.cleaned_data['id']
             tarefa.save()
             messages.success(request, 'Tarefa atualizada com sucesso!')
-            return redirect(request.POST['redirect'])
+            return redirect(request.POST['url'].replace(".html", ""))  # retira o .html da {{ url }}
+            # return JsonResponse({'mensagem': 'Tarefa concluída com sucesso'}) # Usado via jquery ajax
             # todo criar else com abrir_modal para exibir o model com erro no formulario
-            # todo inserir o redirect no form do modals.html
-            # todo ou fazer por Ajax (melhor maneira) clica > abre modal > envia form * mas se for invalid? *else render (abrir_modal)
+            # todo utilizar ajax para submit form, mas como vou atualizar a lista de tarefas (de tal dia ou semana)
 
-    # return render(request, request.GET['url'],
-    #               {'form': form, 'abrir_modal_tarefa': 'in', 'editar_tarefa': True, 'id_tarefa': id_tarefa})
     return JsonResponse(
             {'titulo': tarefa.titulo, 'descricao': tarefa.descricao, 'data': tarefa.data, 'hora': tarefa.hora,
              'duracao': tarefa.duracao, 'prioridade': tarefa.prioridade,
-             'papel': tarefa.papel, 'projeto': tarefa.projeto, 'usuario.id': tarefa.usuario.id, 'id': tarefa.id})
+             'papel': tarefa.papel, 'projeto': tarefa.projeto, 'usuario': tarefa.usuario.id, 'id': tarefa.id})
 
 
 """
@@ -93,7 +134,6 @@ def excluir_tarefa(request, id=None):
 
 @login_required()
 def alterar_status(request):
-    # todo redirecionar com json e dar um load no conteúdo da página (usar atributos session)
     if request.is_ajax() or request.method == 'POST':
         tarefa = get_object_or_404(Tarefa, id=request.POST['id'], usuario=request.user)
         if request.POST['estado'] == 'marcado':

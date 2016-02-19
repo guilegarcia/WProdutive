@@ -9,38 +9,10 @@
         <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
         <script async type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
         <script async type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-        <script async type="text/javascript" src="{% static "js/jquery.form.js" %}"></script>
+        <script async type="text/javascript" src={% static "js/alerts.js" %}></script>
 
-
-
-        <!-- Atalhos teclado
-        <script>
-            $(document).ready(function () {
-                $(document).keydown(function (event) {
-                    // Ctrl+alt+T (Tarefa)
-                    if ((event.ctrlKey) && (event.altKey) && event.keyCode == 84) {
-                        event.preventDefault();
-                        $('#criarTarefa').modal('show');
-                    }
-                    // Ctrl+alt+P (Papel)
-                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 80) {
-                        event.preventDefault();
-                        $('#criarPapel').modal('show');
-                    }
-                    // Ctrl+alt+L (Lembrete)
-                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 76) {
-                        event.preventDefault();
-                        $('#criarLembrete').modal('show');
-                    }
-                    // Ctrl+alt+O (Projeto)
-                    else if ((event.ctrlKey) && (event.altKey) && event.keyCode == 79) {
-                        event.preventDefault();
-                        $('#criarProjeto').modal('show');
-                    }
-                });
-            });
-        </script> -->
-        <!-- fim Atalhos teclado -->
+        {% block angular_imports %}
+        {% endblock angular_imports %}
 
         <style>
             .modal.in {display: block}

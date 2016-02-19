@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% block angular_imports %}
+    {% load staticfiles %}
+    <script src={% static "js/angular.min.js" %}></script>
+    <script src={% static "app/papeis/papeis.js" %}></script>
+{% endblock angular_imports %}
+
 {% block title %}
     <title>Papéis - Produtiver</title>
 {% endblock title %}
 {% block corpo %}
-    <div class="container">
+    <div class="container" ng-app="papeis" ng-controller="PapelController as PapelCtrl">
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb">
@@ -29,19 +35,24 @@
 
                 <h1>Meus papéis</h1>
                 <ul class="list-group col-md-8">
-                    {% for papel in request.session.lista_papeis %}
-                        <li class="list-group-item">
-                            <!-- Excluir editar papel -->
-                            <form action="{% url 'editar_projeto' %}" method="get" role="form">
-                                <a href="{% url 'papel' papel.id %}" title="{{ papel.nome }}">{{ papel.nome }}</a>
-                                <a href="{% url 'excluir_papel' papel.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir papel!"><span class="glyphicon glyphicon-remove"></span></a>
-                                <button type="submit" name="id" value="{{ papel.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>
-                            </form>
-                            <!-- fim Excluir editar papel -->
-                        </li>
-                        {% empty %}
-                            <p class="text-muted">Nenhum papel cadastrado. <a href="#" data-toggle="modal" data-target="#criarPapel">Cadastre um papel!</a></p>
-                    {% endfor %}
+
+                    <li class="list-group-item" ng-repeat="papel in lista_papeis">
+                        <a href="http://www.+[[ papel.pk ]]" title="[[ papel.nome ]]">[[ papel.nome ]]</a>
+                        <a href="" ng-click="PapelCtrl.delete([[papel.pk]], [[$index]])" onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                           class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir papel!"><span class="glyphicon glyphicon-remove"></span></a>
+                        <a href="" ng-click="PapelCtrl.abrirProjeto([[$index]])" role="button" class="btn btn-info btn-xs pull-right" title="Editar papel!"><span class="glyphicon glyphicon-pencil"></span></a>
+
+{#                        <!-- Excluir editar papel -->#}
+{#                        <form action="{% url 'editar_papel' %}" method="get" role="form">#}
+{#                            <a href="{% url 'papel' papel.id %}" title="{{ papel.nome }}">{{ papel.nome }}</a>#}
+{#                            <a href="{% url 'excluir_papel' papel.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir papel!"><span class="glyphicon glyphicon-remove"></span></a>#}
+{#                            <button type="submit" name="id" value="{{ papel.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>#}
+{#                        </form>#}
+{#                        <!-- fim Excluir editar papel -->#}
+                    </li>
+
+                        <p ng-show="lista_papeis.length == 0" class="text-muted">Nenhum papel cadastrado. <a href="#" data-toggle="modal" data-target="#criarPapel">Cadastre um papel!</a></p>
+
                 </ul>
                 <!-- fim Lista papeis -->
             </div>

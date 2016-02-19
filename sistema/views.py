@@ -1,13 +1,21 @@
 # -*- encoding: utf-8 -*-
 import locale
 from datetime import date, timedelta
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from lembretes.models import Lembrete
-from sistema.forms import DiaForm, SemanaForm
+from sistema.forms import SemanaForm, DiaForm
 from tarefas.models import Tarefa
+
+
+# Index
+def teste_angular(request):
+    """
+    Exibe a página inicial do sistema
+    """
+    return render(request, "teste-angular.html")
+
 
 # Index
 def index(request):
@@ -23,7 +31,21 @@ def dia(request):
     Mostra as tarefas do dia e marca as tarefas atrasadas em vermelho. Além disso, é mostrado de horas do dia.
     """
     data = date.today()
-    if request.method == 'POST':
+    if request.method == 'POST': #or request.is_ajax():
+        """
+        # data = parse_date(request.POST.get('data')) # converte a string em date
+        data = datetime.strptime(request.POST.get('data'), '%Y-%m-%d').date()
+        ant_prox = request.POST.get('ant_prox')
+
+        # Dia anterior
+        if ant_prox == 'anterior':
+            data_subtraida = data - timedelta(days=1)
+            data = data_subtraida
+        # Próximo dia
+        elif ant_prox == 'proximo':
+            # soma +1 na data
+            data = data + timedelta(days=1)
+        """
         form = DiaForm(request.POST)
         if form.is_valid():
             dados = form.cleaned_data
@@ -37,12 +59,13 @@ def dia(request):
                 # soma +1 na data
                 data = data + timedelta(days=1)
 
+
     # Recebe tarefas, lembretes do dia
     lista_tarefas = list(Tarefa.objects.filter(data=data, usuario=request.user).order_by('prioridade'))
     lista_lembretes = Lembrete.objects.filter(data=data, usuario=request.user)
 
-    # Tarefas atrasadas (exceto apartir de amanhã)
-    if (data <= date.today()):
+    # Tarefas atrasadas (somente para o dia atual) * verificar se não fica melhor exceto apatir de amanhã <=
+    if (data == date.today()):
         lista_tarefas_atrasadas = list(Tarefa.objects.filter(usuario=request.user, status=0, data__lt=data))
 
         # Percorre a lista de atrasadas e seta 2 (atrasado) nas tarefas atrasadas
@@ -93,7 +116,7 @@ def semana(request):
 @login_required()
 def insere_dias_semana_session(request, data):
     """
-    Insere os dias da semana na session (exibo em semana.html)
+    Insere os dias da semana na session (exibido em semana.html)
 
     Atributos:
     :param data: recebe a data do início da semana
@@ -109,11 +132,8 @@ def insere_dias_semana_session(request, data):
     for x in range(0, 6):
         data = data + timedelta(days=1)
         tarefa_do_dia = Tarefa.objects.filter(usuario=request.user, data=data)
+
         # Insere lista de tarefas e lembretes na session (tarefas_segunda..)
-        """
-        request.session[data.strftime('tarefas_%a')] = tarefa_do_dia
-        request.session[data.strftime('lembretes_%a')] =
-        """
         request.session['tarefas_' + dias_semana[x]] = tarefa_do_dia
         request.session['lembretes_' + dias_semana[x]] = Lembrete.objects.filter(usuario=request.user, data=data)
 

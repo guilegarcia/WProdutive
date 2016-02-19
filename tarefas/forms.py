@@ -22,11 +22,8 @@ class TarefaForm(forms.ModelForm):
         fields = ('titulo', 'descricao', 'data', 'hora', 'duracao', 'prioridade', 'papel', 'projeto', 'usuario')
 
     # Cria as tarefas repetidas
-    def repeat(self):
+    def repetir(self, tarefa):
         data = self.cleaned_data
-        # Copia e limpa os informações extras do form para Tarefa (não consegui fazer direto por ModelForm.save())
-        datas = data.copy()
-        del datas['repeticao'], datas['num_repeticao'], datas['url']
 
         # Verifica qual é o tipo de repetição
         if data['repeticao'] == 'diario':
@@ -39,7 +36,7 @@ class TarefaForm(forms.ModelForm):
             intervalo_dias = 365
 
         # Cria a tarefa com base no formulario
-        tarefa_original = Tarefa(**datas)
+        tarefa_original = tarefa
 
         # Faz uma cópia da tarefa original (sem referência)
         tarefa = copy.copy(tarefa_original)
@@ -51,4 +48,5 @@ class TarefaForm(forms.ModelForm):
             tarefa.data = tarefa.data + timedelta(days=intervalo_dias)
             tarefa.tarefa_original = tarefa_original
             tarefa.id = None  # Força a adição de uma nova tarefa no DB
+            tarefa.repetida = False
             tarefa.save()

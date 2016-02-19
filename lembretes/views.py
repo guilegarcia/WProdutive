@@ -4,8 +4,35 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 # Cria Lembrete
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
 from lembretes.forms import FormLembrete
 from lembretes.models import Lembrete
+from lembretes.serializers import LembreteSerializer
+
+
+class LembreteViewSet(viewsets.ModelViewSet):
+    """
+    Listar, editar, criar e deletar
+    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    """
+    queryset = Lembrete.objects.all()
+    serializer_class = LembreteSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """
+        Retorna a lista de projetos do usuário logado e a data
+        """
+        user = self.request.user
+
+        # Verifica se possui data ou gera a lista de todos os lembretes do usuário (para editar e remover)
+        if self.request.query_params.get('data') is not None:
+            data = self.request.query_params.get('data', None)
+            return Lembrete.objects.filter(data=data, usuario=user)
+        else:
+            return Lembrete.objects.filter(usuario=user)
 
 
 @login_required()

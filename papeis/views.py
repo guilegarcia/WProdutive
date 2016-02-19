@@ -4,10 +4,30 @@ from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from papeis.forms import FormPapel
 from papeis.models import Papel
+from papeis.serializers import PapelSerializer
 from tarefas.models import Tarefa
+
+
+class PapelViewSet(viewsets.ModelViewSet):
+    """
+    Listar, editar, criar e deletar
+    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    """
+    queryset = Papel.objects.all()
+    serializer_class = PapelSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """
+        Retorna a lista de papeis do usuário logado
+        """
+        user = self.request.user
+        return Papel.objects.filter(usuario=user)
 
 
 @login_required()
@@ -32,6 +52,7 @@ def papeis(request):
     request.session['lista_papeis'] = lista_papeis
     return render(request, 'papeis.html', {'papel_active': 'active'})
 
+
 @login_required()
 def excluir_papel(request, id=None):
     papel = get_object_or_404(Papel, usuario=request.user, id=id)
@@ -54,7 +75,7 @@ def editar_papel(request):
             messages.success(request, 'Papel atualizado com sucesso')
             return redirect('/papeis/')
     return render(request, 'papeis.html',
-              {'form': form, 'abrir_modal_papel': 'in', 'editar_papel': 'true'})
+                  {'form': form, 'abrir_modal_papel': 'in', 'editar_papel': 'true'})
 
 
 @login_required()
@@ -65,6 +86,7 @@ def papel(request, id=None):
     return render(request, 'papel.html',
                   {'papel': papel, 'lista_tarefas_papel': lista_tarefas, 'papel_active': 'active',
                    'total_duracao': total_duracao})
+
 
 @login_required()
 def gera_total_duracao(request, lista_tarefas):

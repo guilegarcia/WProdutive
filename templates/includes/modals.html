@@ -3,7 +3,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="$('.modal').hide()" class="close" data-dismiss="modal" aria-hidden="true">x
+                <button type="button" class="close" onclick="$('.modal').hide()" class="close" data-dismiss="modal"
+                        aria-hidden="true">x
                 </button>
                 <h4 class="modal-title">Cadastrar Tarefa</h4>
                 <em>* itens obrigatórios!</em>
@@ -12,10 +13,12 @@
                 <form id="form_tarefa" action="{% if editar_tarefa %}{% url 'editar_tarefa' %}{% else %}{% url 'criar_tarefa' %}{% endif %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-2">
-                            <label for="id_titulo_tarefa" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
+                            <label for="id_titulo_tarefa" class="control-label">Título <abbr
+                                    title="Campo obrigatório">*</abbr></label>
                         </div>
                         <div class="col-sm-10">
-                            <input name="titulo" type="text" class="form-control" value="{{ form.titulo.value }}" maxlength="200" id="id_titulo_tarefa" placeholder="Escreva o título da tarefa..">
+                            <input name="titulo" type="text" class="form-control" value="{{ form.titulo.value }}"
+                                   maxlength="200" id="id_titulo_tarefa" placeholder="Escreva o título da tarefa..">
                             {% for error in form.titulo.errors %}
                                 <p class="text-danger">{{ error|escape }}</p>
                             {% endfor %}
@@ -26,7 +29,8 @@
                             <label for="id_descricao_tarefa" class="control-label">Descrição</label>
                         </div>
                         <div class="col-sm-10">
-                            <textarea name="descricao" id="id_descricao_tarefa" class="form-control" rows="4" placeholder="Descrição da tarefa..">{{ form.descricao.value }}</textarea>
+                            <textarea name="descricao" id="id_descricao_tarefa" class="form-control" rows="4"
+                                      placeholder="Descrição da tarefa..">{{ form.descricao.value }}</textarea>
                             {% for error in form.descricao.errors %}
                                 <p class="text-danger">{{ error|escape }}</p>
                             {% endfor %}
@@ -37,11 +41,13 @@
                     <div class="form-group">
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_data_tarefa" class="control-label">Data <abbr title="Campo obrigatório">*</abbr></label>
+                                <label for="id_data_tarefa" class="control-label">Data <abbr
+                                        title="Campo obrigatório">*</abbr></label>
                             </div>
                             <div class="col-sm-4">
                                 <!-- todo setar valor default com o now-->
-                                <input id="id_data_tarefa" name="data" type="Date" value="{% now  "Y-m-d" %}" class="form-control">
+                                <input id="id_data_tarefa" name="data" type="Date" value="{% now  "Y-m-d" %}"
+                                       class="form-control">
                                 {% comment if form.data.value %}
                                     <input name="data" type="Date" value="{{ form.data.value|date:'Y-m-d' }}" class="form-control">
                                 {% else %}
@@ -61,7 +67,8 @@
                             </div>
                             <div class="col-sm-4">
                                 {% if form.hora.value %}
-                                <input name="hora" type="Time" value="{{ form.hora.value|time:"H:i" }}" class="form-control" id="id_hora_tarefa">
+                                    <input name="hora" type="Time" value="{{ form.hora.value|time:"H:i" }}"
+                                           class="form-control" id="id_hora_tarefa">
                                 {% else %}
                                     <input name="hora" type="Time" class="form-control" id="id_hora_tarefa">
                                 {% endif %}
@@ -83,7 +90,8 @@
                             </div>
                             <div class="col-sm-4">
                                 {% if form.duracao.value %}
-                                    <input name="duracao" type="Time" value="{{ form.duracao.value|time:"H:i" }}" class="form-control" id="id_duracao_tarefa">
+                                    <input name="duracao" type="Time" value="{{ form.duracao.value|time:"H:i" }}"
+                                           class="form-control" id="id_duracao_tarefa">
                                 {% else %}
                                     <input name="duracao" type="Time" class="form-control" id="id_duracao_tarefa">
                                 {% endif %}
@@ -101,7 +109,8 @@
                             <div class="col-sm-4">
                                 <select name="prioridade" class="form-control" id="id_prioridade_tarefa">
                                     {% if form.prioridade.value %}
-                                        <option value="{{ form.prioridade.value }}" selected="">{{ form.prioridade.value }}</option>
+                                        <option value="{{ form.prioridade.value }}"
+                                                selected="">{{ form.prioridade.value }}</option>
                                     {% else %}
                                         <option value="" selected="" disabled="">Selecione</option>
                                     {% endif %}
@@ -134,8 +143,8 @@
                                     <option value="" selected="" disabled="">Selecione</option>
                                     {% for papel in request.session.papeis %}
                                         <option value="{{ papel.id }}">{{ papel.nome }}</option>
-                                        {% empty %}
-                                            <option value="" selected="" disabled="">Nenhum</option>
+                                    {% empty %}
+                                        <option value="" selected="" disabled="">Nenhum</option>
                                     {% endfor papeis %}
                                 </select>
                             </div>
@@ -143,17 +152,19 @@
                         <!-- Projeto -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <label for="id_projeto_tarefa" class="control-label" contenteditable="true">Projeto</label>
+                                <label for="id_projeto_tarefa" class="control-label"
+                                       contenteditable="true">Projeto</label>
                             </div>
                             <div class="col-sm-4">
                                 <!-- todo remover o style inline -->
-                                <select name="projeto" class="form-control" style="width: 150px;" id="id_projeto_tarefa">
+                                <select name="projeto" class="form-control" style="width: 150px;"
+                                        id="id_projeto_tarefa">
                                     <!-- todo verificar se a tarefa possui projeto e imprimir nome e id como opção selecionada -->
                                     <option value="" selected="" disabled="">Selecione</option>
                                     {% for projeto in request.session.projetos %}
                                         <option value="{{ projeto.id }}">{{ projeto.nome }}</option>
-                                        {% empty %}
-                                            <option value="" selected="" disabled="">Nenhum</option>
+                                    {% empty %}
+                                        <option value="" selected="" disabled="">Nenhum</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -181,7 +192,8 @@
                         <!-- Nùmero repetições -->
                         <div class="form-inline">
                             <div class="col-sm-2">
-                                <input name="num_repeticao" type="number" placeholder="Número de repetições!" class="form-control">
+                                <input name="num_repeticao" type="number" placeholder="Número de repetições!"
+                                       class="form-control">
                             </div>
                         </div>
                     </div>
@@ -194,23 +206,55 @@
                                 <input type="hidden" name="id" value="{{ id_tarefa }}" id="id_id_tarefa">
                             {% endif %}
                             {% endcomment %}
-                            <input type="hidden" name="id" value="{{ form.id.value }}" id="id_id_tarefa">
+                            <input type="hidden" name="id" value="{{ form.id.value }}" id="tarefa_id_id">
                             <input type="hidden" name="url" value="{{ url }}" id="id_url_tarefa">
-                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                            <button id="button_editar_tarefa" type="submit" class="btn btn-success pull-left">Cadastrar</button>
+
                         </div>
                     </div>
                 </form>
             </div>
+            <!--
             <div class="modal-footer">
                 <a class="btn btn-default" class="close" onclick="$('.modal').hide()" data-dismiss="modal">Fechar</a>
             </div>
+            -->
         </div>
     </div>
 </div>
 <!-- fim Modal Tarefa -->
 
+<!-- Exibe Tarefa -->
+<div class="modal fade" id="abrirTarefa" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{ tarefa.titulo }}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{ tarefa.descricao }}</p>
+                <!-- todo adicionar a url do href via jquery (abrirTarefa) -->
+                <a href="{% url 'excluir_tarefa' 1 %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="btn btn-danger" title="Excluir tarefa!"><span class="glyphicon glyphicon-trash"></span> Excluir</a>
+                <a href="{% url 'excluir_tarefa' 1 %}" role="button" class="btn btn-success" title="Excluir tarefa!"><i class="glyphicon glyphicon-ok"></i> Concluir</a>
+            </div>
+            <!--
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+            -->
+        </div>
+
+    </div>
+</div>
+<!-- fim Exibe tarefa -->
+
+
 <!-- Modal Criar Papel  -->
-<div class="modal fade {{ abrir_modal_papel }}" id="criarPapel" tabindex="-1" role="dialog" aria-labelledby="Criar e editar Papel"
+<div class="modal fade" id="criarPapel" tabindex="-1" role="dialog"
+     aria-labelledby="Criar e editar Papel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -224,26 +268,28 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <form action="{% if editar_papel %}{% url 'editar_papel' %}{% else %}{% url 'criar_papel' %}{% endif %}" method="post" class="form-horizontal" role="form"> {% csrf_token %}
+                            <form ng-controller="CriarPapel as criarPapel" ng-submit="criarPapel.addPapel(papel)"
+                                  method="post" class="form-horizontal" role="form">
                                 <!-- <legend draggable="true">Cadastro de papel</legend> -->
                                 <div class="form-group col-md-10">
                                     <label for="id_nome">Nome: <abbr title="Campo obrigatório">*</abbr></label>
-                                    <input name="nome" type="text" class="form-control" value="{{ form.nome.value }}" maxlength="200" id="id_nome" placeholder="Escreva o nome..">
+                                    <input ng-model="criarPapel.papel.nome" name="nome" type="text" class="form-control" value="{{ form.nome.value }}"
+                                           maxlength="200" id="id_nome" placeholder="Escreva o nome..">
                                     {% for error in form.nome.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
                                 </div>
                                 <div class="form-group col-md-12" draggable="true">
                                     <label for="id_descricao">Descricao:</label>
-                                    <textarea name="descricao" id="id_descricao" class="form-control" rows="4" placeholder="Descrição do papel..">{{ form.descricao.value }}</textarea>
+                                    <textarea ng-model="criarPapel.papel.descricao" name="descricao" id="id_descricao" class="form-control" rows="4"
+                                              placeholder="Descrição do papel..">{{ form.descricao.value }}</textarea>
                                     {% for error in form.descricao.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
 
                                 </div>
                                 <div class="form-group col-md-8">
-                                    <input type="hidden" name="usuario" value="{{ user.id }}">
-                                    <input type="hidden" name="url" value="{{ url }}">
+                                    <input ng-init="criarPapel.papel.usuario = {{ user.id }}" ng-model="criarPapel.papel.usuario" type="hidden" id="id_usuario_papel" name="usuario" >
                                     <button type="submit" class="btn btn-success" draggable="true">Cadastrar</button>
                                 </div>
                             </form>
@@ -261,11 +307,13 @@
 <!-- fim MODAL papel -->
 
 <!-- MODAL projeto  -->
-<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" data-keyboard="true" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="Criar e editar projeto" aria-hidden="true">
+<div class="modal fade {{ abrir_modal_projeto }}" id="criarProjeto" data-keyboard="true" data-backdrop="true"
+     tabindex="-1" role="dialog" aria-labelledby="Criar e editar projeto" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" onclick="$('.modal').hide()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" onclick="$('.modal').hide()" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Cadastro de projeto</h4>
                 <em>* itens obrigatórios!</em>
             </div>
@@ -273,10 +321,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
-                            <form id="criar_editar_projeto" action="{% if editar_projeto %}{{ editar_projeto }}{% else %}/projetos/criar-projeto/{% endif %}" method="POST" class="form-horizontal" role="form"> {% csrf_token %}
+                            <form ng-controller="CriarProjeto as projetoCreate" ng-submit="projetoCreate.addProjeto(projeto)" class="form-horizontal" role="form" novalidate> {% csrf_token %}
                                 <div class="form-group col-md-10">
                                     <label for="id_nome">Nome: <abbr title="Campo obrigatório">*</abbr></label>
-                                    <input name="nome" id="id_nome_projeto" type="text" class="form-control" value="{{ form.nome.value }}" maxlength="200" id="id_nome" placeholder="Escreva seu nome..">
+                                    <input ng-model="projetoCreate.projeto.nome" name="nome" id="id_nome_projeto" type="text" class="form-control"
+                                           value="{{ form.nome.value }}" maxlength="200"
+                                           placeholder="Escreva seu nome.." required>
                                     {% for error in form.nome.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
@@ -284,18 +334,22 @@
                                 </div>
                                 <div class="form-group col-md-12" draggable="true">
                                     <label for="id_descricao">Descricao:</label>
-                                    <textarea name="descricao" id="id_descricao_projeto" class="form-control" rows="4" placeholder="Descrição da projeto..">{{ form.descricao.value }}</textarea>
+                                    <textarea ng-model="projetoCreate.projeto.descricao" name="descricao" id="id_descricao_projeto" class="form-control" rows="4"
+                                              placeholder="Descrição da projeto..">{{ form.descricao.value }}</textarea>
                                     {% for error in form.descricao.errors %}
                                         <p class="text-danger">{{ error|escape }}</p>
                                     {% endfor %}
 
                                 </div>
-                                <input type="hidden" id="id_usuario_projeto" name="usuario" value="{{ user.id }}">
+
+                                <input ng-init="projetoCreate.projeto.usuario = {{ user.id }}" ng-model="projetoCreate.projeto.usuario" type="hidden" id="id_usuario_projeto" name="usuario" >
                                 <input type="hidden" id="id_url_projeto" name="url" value="{{ url }}">
                                 <input id="id_id_projeto" type="hidden" name="id" value="{{ form.id.value }}">
 
                                 <div class="form-group col-md-8">
-                                    <button type="submit" class="btn btn-success" draggable="true" data-loading-text="Cadastrando...">Cadastrar</button>
+                                    <button type="submit" class="btn btn-success" draggable="true"
+                                            data-loading-text="Cadastrando...">Cadastrar
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -311,71 +365,80 @@
 </div>
 <!-- fim MODAL projeto -->
 
-<!-- Inicio MODAL Lembrete -->
-<div class="modal fade {{ abrir_modal_lembrete }}" id="criarLembrete" role="dialog" aria-labelledby="Criar e editar lembrete">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" onclick="$('.modal').hide()" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                <h4 class="modal-title">Cadastrar Lembrete</h4>
-                <em>* itens obrigatórios!</em>
-            </div>
-            <div class="modal-body">
-                <form id="criar-lembrete" action="{% url 'criar_lembrete' %}" method="post" class="form-horizontal" role="form"> {% csrf_token %}
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label for="id_titulo" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
-                        </div>
-                        <div class="col-sm-10">
-                            <input type="text" value="{{ form.titulo.value }}" name="titulo" maxlength="200" class="form-control" id="id_titulo" placeholder="Título do lembrete">
-                            {% for error in form.titulo.errors %}
-                                <p class="text-danger">{{ error|escape }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <div class="col-sm-2">
-                            <label for="id_descricao" class="control-label">Descrição</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <textarea name="descricao" id="id_descricao" class="form-control" rows="4" placeholder="Descrição da lembrete..">
-                                {% if form.descricao.value == 'None' %}{% else %}
-                                    {{ form.descricao.value }}
-                                {% endif %}
-                            </textarea>
-                            {% for error in form.descricao.errors %}
-                                <p class="text-danger">{{ error|escape }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-2">
-                            <label class="control-label">Data <abbr title="Campo obrigatório">*</abbr></label>
-                        </div>
-                        <div class="col-sm-4">
-                            {% if form.data.value %}
-                                <input name="data" type="Date" value="{{ form.data.value|date:'Y-m-d' }}" class="form-control">
-                            {% else %}
-                                <input name="data" type="Date" value="{% now  "Y-m-d" %}" class="form-control">
-                            {% endif %}
-                            {% for error in form.data.errors %}
-                                <p class="text-danger">{{ error|escape }}</p>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <input type="hidden" name="usuario" value="{{ user.id }}">
-                            <input type="hidden" name="url" value="{{ url }}">
-                            <button type="submit" class="btn btn-success" data-loading-text="Cadastrando...">Cadastrar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" onclick="$('.modal').hide()" data-dismiss="modal">Fechar</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Fim MODAL Lembrete -->
+<!-- todo remover -->
+{#<!-- Inicio MODAL Lembrete -->#}
+{#<div class="modal fade {{ abrir_modal_lembrete }}" id="criarLembrete" role="dialog"#}
+{#     aria-labelledby="Criar e editar lembrete">#}
+{#    <div class="modal-dialog">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <button type="button" onclick="$('.modal').hide()" class="close" data-dismiss="modal"#}
+{#                        aria-hidden="true">x#}
+{#                </button>#}
+{#                <h4 class="modal-title">Cadastrar Lembrete</h4>#}
+{#                <em>* itens obrigatórios!</em>#}
+{#            </div>#}
+{#            <div class="modal-body">#}
+{#                <form id="criar-lembrete" action="{% url 'criar_lembrete' %}" method="post" class="form-horizontal"#}
+{#                      role="form"> {% csrf_token %}#}
+{#                    <div class="form-group">#}
+{#                        <div class="col-sm-2">#}
+{#                            <label for="id_titulo" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>#}
+{#                        </div>#}
+{#                        <div class="col-sm-10">#}
+{#                            <input type="text" value="{{ form.titulo.value }}" name="titulo" maxlength="200"#}
+{#                                   class="form-control" id="id_titulo" placeholder="Título do lembrete">#}
+{#                            {% for error in form.titulo.errors %}#}
+{#                                <p class="text-danger">{{ error|escape }}</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="form-group has-feedback">#}
+{#                        <div class="col-sm-2">#}
+{#                            <label for="id_descricao" class="control-label">Descrição</label>#}
+{#                        </div>#}
+{#                        <div class="col-sm-10">#}
+{#                            <textarea name="descricao" id="id_descricao" class="form-control" rows="4"#}
+{#                                      placeholder="Descrição da lembrete..">#}
+{#                                {% if form.descricao.value == 'None' %}{% else %}#}
+{#                                    {{ form.descricao.value }}#}
+{#                                {% endif %}#}
+{#                            </textarea>#}
+{#                            {% for error in form.descricao.errors %}#}
+{#                                <p class="text-danger">{{ error|escape }}</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <div class="col-sm-2">#}
+{#                            <label class="control-label">Data <abbr title="Campo obrigatório">*</abbr></label>#}
+{#                        </div>#}
+{#                        <div class="col-sm-4">#}
+{#                            {% if form.data.value %}#}
+{#                                <input name="data" type="Date" value="{{ form.data.value|date:'Y-m-d' }}"#}
+{#                                       class="form-control">#}
+{#                            {% else %}#}
+{#                                <input name="data" type="Date" value="{% now  "Y-m-d" %}" class="form-control">#}
+{#                            {% endif %}#}
+{#                            {% for error in form.data.errors %}#}
+{#                                <p class="text-danger">{{ error|escape }}</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="form-group">#}
+{#                        <div class="col-sm-offset-2 col-sm-10">#}
+{#                            <input type="hidden" name="usuario" value="{{ user.id }}">#}
+{#                            <input type="hidden" name="url" value="{{ url }}">#}
+{#                            <button type="submit" class="btn btn-success" data-loading-text="Cadastrando...">Cadastrar#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#            <div class="modal-footer">#}
+{#                <a class="btn btn-default" onclick="$('.modal').hide()" data-dismiss="modal">Fechar</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#<!-- Fim MODAL Lembrete -->#}
