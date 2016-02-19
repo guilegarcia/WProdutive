@@ -1,0 +1,57 @@
+<!-- Inicio MODAL Lembrete -->
+<div class="modal fade" id="criarLembrete" role="dialog"
+     aria-labelledby="Criar e editar lembrete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="$('.modal').hide()" class="close" data-dismiss="modal"
+                        aria-hidden="true">x
+                </button>
+                <h4 class="modal-title">Cadastrar Lembrete</h4>
+                <em>* itens obrigatórios!</em>
+            </div>
+            <div class="modal-body">
+                <form ng-controller="CriarLembrete as LembreteCtrl" ng-submit="LembreteCtrl.adicionar(lembrete)" id="criar-lembrete" class="form-horizontal"
+                      role="form" novalidate> {% csrf_token %}
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="id_titulo" class="control-label">Título <abbr title="Campo obrigatório">*</abbr></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input ng-model="LembreteCtrl.lembrete.titulo" type="text" name="titulo" maxlength="200"
+                                   class="form-control" id="id_titulo" placeholder="Título do lembrete">
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-sm-2">
+                            <label for="id_descricao" class="control-label">Descrição</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea ng-model="LembreteCtrl.lembrete.descricao" name="descricao" id="id_descricao" class="form-control" rows="4"
+                                      placeholder="Descrição da lembrete.."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label class="control-label" for="data_lembrete">Data <abbr title="Campo obrigatório">*</abbr></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input ng-model="LembreteCtrl.lembrete.data" value="{% now  "Y-m-d" %}" name="data" type="Date" class="form-control" id="data_lembrete" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input ng-init="LembreteCtrl.lembrete.usuario = {{ user.id }}" ng-model="LembreteCtrl.lembrete.usuario" type="hidden" name="usuario" value="{{ user.id }}">
+                            <button type="submit" class="btn btn-success" data-loading-text="Cadastrando...">Cadastrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" onclick="$('.modal').hide()" data-dismiss="modal">Fechar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim MODAL Lembrete -->

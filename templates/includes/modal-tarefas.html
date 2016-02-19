@@ -1,0 +1,193 @@
+<!-- Modal Tarefa -->
+<div class="modal fade" id="atualizarTarefa" role="dialog" aria-labelledby="Editar tarefa">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="$('.modal').hide()" class="close" data-dismiss="modal"
+                        aria-hidden="true">x
+                </button>
+                <h4 class="modal-title">Editar Tarefa</h4>
+                <em>* itens obrigatórios!</em>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="TarefaCtrl.update(tarefa)" class="form-horizontal" method="post" role="form" novalidate>{% csrf_token %}
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="id_titulo_tarefa" class="control-label">Título <abbr
+                                    title="Campo obrigatório">*</abbr></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input ng-model="TarefaCtrl.tarefa.titulo" name="titulo" type="text" class="form-control" maxlength="200" id="id_titulo_tarefa" placeholder="Escreva o título da tarefa.." required>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div class="col-sm-2">
+                            <label for="id_descricao_tarefa" class="control-label">Descrição</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea ng-model="TarefaCtrl.tarefa.descricao" name="descricao" id="id_descricao_tarefa" class="form-control" rows="4"
+                                      placeholder="Descrição da tarefa.."></textarea>
+                        </div>
+                    </div>
+                    <!-- Data e hora -->
+                    <!-- Data -->
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_data_tarefa" class="control-label">Data <abbr
+                                        title="Campo obrigatório">*</abbr></label>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- todo setar valor default com o now-->
+                                <input ng-model="TarefaCtrl.tarefa.data" id="id_data_tarefa" name="data" type="Date" value="{% now  "Y-m-d" %}"
+                                       class="form-control" required>
+                            </div>
+                        </div>
+                        <!-- fim Data -->
+                        <!-- Hora -->
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_hora_tarefa" class="control-label">Hora</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- todo como vou formatar a hora? Ideia: ng-init -->
+                                <input ng-model="TarefaCtrl.tarefa.hora" name="hora" type="Time" value="{{ form.hora.value|time:"H:i" }}"
+                                      placeholder="xx:xx" class="form-control" id="id_hora_tarefa">
+                            </div>
+                        </div>
+                        <!-- fim Hora -->
+                    </div>
+                    <!-- fim Data e Hora-->
+                    <hr/>
+                    <!-- Duraçaõ e Prioridade -->
+                    <div class="form-group">
+                        <!-- Duração -->
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_duracao_tarefa" class="control-label">Duração</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input ng-model="TarefaCtrl.tarefa.duracao" name="duracao" type="Time" value="{{ form.duracao.value|time:"H:i" }}"
+                                           class="form-control" id="id_duracao_tarefa">
+                            </div>
+                        </div>
+                        <!-- fim Duração -->
+                        <!-- Prioridade -->
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_prioridade_tarefa" class="control-label">Prioridade</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select ng-model="TarefaCtrl.tarefa.prioridade" name="prioridade" class="form-control" id="id_prioridade_tarefa">
+                                    <!-- todo como vou mostrar o selecionado ou exibir o "Selecione"? -->
+{#                                    {% if form.prioridade.value %}#}
+{#                                        <option value="{{ form.prioridade.value }}"#}
+{#                                                selected="">{{ form.prioridade.value }}</option>#}
+{#                                    {% else %}#}
+{#                                        <option value="" selected="" disabled="">Selecione</option>#}
+{#                                    {% endif %}#}
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- fim Prioridade -->
+                    </div>
+                    <!-- Duração e Prioridade -->
+                    <hr>
+                    <!-- Projeto e Papel (inline) -->
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_papel_tarefa" class="control-label">Papel</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- todo remover o style inline -->
+                                <select ng-model="TarefaCtrl.tarefa.papel" name="papel" class="form-control" style="width: 150px;" id="id_papel_tarefa">
+                                    <option value="" selected="" disabled="">Selecione</option>
+                                    <!-- todo usar ng-repeat para papeis -->
+                                    {% for papel in request.session.papeis %}
+                                        <option value="{{ papel.id }}">{{ papel.nome }}</option>
+                                    {% empty %}
+                                        <option value="" selected="" disabled="">Nenhum</option>
+                                    {% endfor papeis %}
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Projeto -->
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_projeto_tarefa" class="control-label"
+                                       contenteditable="true">Projeto</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <!-- todo remover o style inline -->
+                                <select ng-model="TarefaCtrl.tarefa.projeto" name="projeto" class="form-control" style="width: 150px;"
+                                        id="id_projeto_tarefa">
+                                    <!-- todo usar ng-repeat para papeis --
+                                    <!-- todo verificar se a tarefa possui projeto e imprimir nome e id como opção selecionada -->
+                                    <option value="" selected="" disabled="">Selecione</option>
+                                    {% for projeto in request.session.projetos %}
+                                        <option value="{{ projeto.id }}">{{ projeto.nome }}</option>
+                                    {% empty %}
+                                        <option value="" selected="" disabled="">Nenhum</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <!-- fim Projeto -->
+                    </div>
+                    <!-- Projeto e Papel (inline) -->
+                    <hr/>
+                    <!-- Repetir -->
+                    <div class="form-group">
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <label for="id_repeticao_tarefa" class="control-label">Repetir</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <select ng-model="TarefaCtrl.tarefa.repeticao" name="repeticao" class="form-control" id="id_repeticao_tarefa">
+                                    <option value="" selected="" disabled="">Selecione</option>
+                                    <option value="diario">Diariamente</option>
+                                    <option value="semanal">Semanal</option>
+                                    <option value="mensal">Mensal</option>
+                                    <option value="anual">Anual</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Nùmero repetições -->
+                        <div class="form-inline">
+                            <div class="col-sm-2">
+                                <input ng-model="TarefaCtrl.tarefa.num_repeticao" name="num_repeticao" type="number" placeholder="Número de repetições!"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fim repetir -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input ng-init="TarefaCtrl.tarefa.usuario = {{ user.id }}" ng-model="TarefaCtrl.tarefa.usuario" type="hidden" name="usuario" value="{{ user.id }}">
+                           <input type="hidden" name="id" value="[[ TarefaCtrl.tarefa.pk ]]" id="tarefa_id_id">
+                            <button id="button_editar_tarefa" type="submit" class="btn btn-success pull-left">Atualizar</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--
+            <div class="modal-footer">
+                <a class="btn btn-default" class="close" onclick="$('.modal').hide()" data-dismiss="modal">Fechar</a>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
+<!-- fim Modal Tarefa -->

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block angular_imports %}
+    {% load staticfiles %}
+    <script src={% static "js/angular.min.js" %}></script>
+    <script src={% static "app/app.js" %}></script>
+    <script src={% static "app/projetos/projetos.js" %}></script>
+    <script src={% static "js/alerts.js" %}></script>
+{% endblock angular_imports %}
+{% block corpo %}
+    <div class="container" ng-app="app" ng-controller="ProjetoController as ProjetoCtrl">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li><a href="/">Início</a></li>
+                    <li class="active">Projetos</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Alert (via Jquery) -->
+                <div id="alerta"> </div>
+                <!-- fim Alert (via Jquery) -->
+
+                <!-- Botão adicionar -->
+                {% include 'includes/botao-adicionar.html' %}
+                <!-- fim Botão adicionar -->
+                <h1>Meus projetos</h1>
+                <ul class="list-group col-md-8">
+                    <li class="list-group-item" ng-repeat="projeto in lista_de_projetos">
+                        <a href="http://www.+[[ projeto.pk ]]" title="[[ projeto.nome ]]">[[ projeto.nome ]]</a>
+                        <a href="" ng-click="ProjetoCtrl.delete([[projeto.pk]], [[$index]])" onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
+                           class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir projeto!"><span class="glyphicon glyphicon-remove"></span></a>
+                        <a href="" ng-click="ProjetoCtrl.abrirProjeto([[$index]])" role="button" class="btn btn-info btn-xs pull-right" title="Editar projeto!"><span class="glyphicon glyphicon-pencil"></span></a>
+                    </li>
+                    {#                            <p class="text-muted">Nenhum projeto cadastrado! <a href="#" data-toggle="modal" data-target="#criarProjeto">Cadastre um projeto!</a></p>#}
+                </ul>
+                <!-- fim Lista projetos -->
+            </div>
+        </div>
+        <hr>
+        {% with url='projetos.html' %}
+            {% include 'includes/modals.html' %}
+        {% endwith %}
+
+        <!-- MODAL projeto  -->
+        <div class="modal fade" id="atualizarProjeto" data-keyboard="true" data-backdrop="true"
+             tabindex="-1" role="dialog" aria-labelledby="Editar projeto" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="$('.modal').hide()" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Editar projeto</h4>
+                        <em>* itens obrigatórios!</em>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <form ng-submit="ProjetoCtrl.atualizaProjeto(projeto)" class="form-horizontal" role="form" novalidate> {% csrf_token %}
+                                        <div class="form-group col-md-10">
+                                            <label for="id_nome">Nome: <abbr title="Campo obrigatório">*</abbr></label>
+                                            <input ng-model="ProjetoCtrl.projeto.nome" name="nome" id="id_nome_projeto" type="text" class="form-control"
+                                                   value="[[ ProjetoCtrl.projeto.nome ]]" maxlength="200" placeholder="Escreva seu nome.." required>
+                                            {% for error in form.nome.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                            {% endfor %}
+
+                                        </div>
+                                        <div class="form-group col-md-12" draggable="true">
+                                            <label for="id_descricao">Descricao:</label>
+                                            <textarea ng-model="ProjetoCtrl.projeto.descricao" name="descricao" id="id_descricao_projeto" class="form-control" rows="4"
+                                                      placeholder="Descrição da projeto..">[[ projeto.descricao ]]</textarea>
+                                            {% for error in form.descricao.errors %}
+                                                <p class="text-danger">{{ error|escape }}</p>
+                                            {% endfor %}
+
+                                        </div>
+
+                                        <input ng-init="ProjetoCtrl.projeto.usuario = {{ user.id }}" ng-model="ProjetoCtrl.projeto.usuario" type="hidden" id="id_usuario_projeto" name="usuario" >
+                                        <input type="hidden" id="id_url_projeto" name="url" value="{{ url }}">
+                                        <input id="id_id_projeto" type="hidden" name="id" value="{{ form.id.value }}">
+
+                                        <div class="form-group col-md-8">
+                                            <button type="submit" class="btn btn-success" draggable="true" data-loading-text="Cadastrando...">Atualizar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="$('.modal').hide()" data-dismiss="modal">Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- fim MODAL projeto -->
+
+    </div>
+
+{% endblock corpo %}
