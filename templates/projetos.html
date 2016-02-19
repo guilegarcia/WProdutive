@@ -21,11 +21,15 @@
                 <div id="alerta"> </div>
                 <!-- fim Alert (via Jquery) -->
 
-                <!-- Botão adicionar -->
-                {% include 'includes/botao-adicionar.html' %}
-                <!-- fim Botão adicionar -->
+{#                <!-- Botão adicionar todo verificar como adicionar tarefas e lembretes -->#}
+{#                {% include 'includes/botao-adicionar.html' %}#}
+{#                <!-- fim Botão adicionar -->#}
+
                 <h1>Meus projetos</h1>
                 <ul class="list-group col-md-8">
+                    <li class="list-group-item">
+                        <a href="#" class="text-muted" data-toggle="modal" data-target="#criarProjeto"><i class="glyphicon glyphicon-plus"></i> Adicionar novo projeto!</a>
+                    </li>
                     <li class="list-group-item" ng-repeat="projeto in lista_de_projetos">
                         <a href="/projetos/projeto/[[ projeto.pk ]]/" title="[[ projeto.nome ]]">[[ projeto.nome ]]</a>
                         <a href="" ng-click="ProjetoCtrl.delete([[projeto.pk]], [[$index]])" onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
@@ -38,9 +42,9 @@
             </div>
         </div>
         <hr>
-        {% with url='projetos.html' %}
-            {% include 'includes/modals.html' %}
-        {% endwith %}
+{#        {% with url='projetos.html' %}#}
+{#            {% include 'includes/modals.html' %}#}
+{#        {% endwith %}#}
 
         <!-- Inclui modal projetos (somente pode ser criado em projetos.html) -->
         {% include 'includes/modal-projetos.html' %}

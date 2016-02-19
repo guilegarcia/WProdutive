@@ -29,9 +29,9 @@
                     </div>
                 {% endfor %}
 
-                <!-- Botão adicionar -->
-                {% include 'includes/botao-adicionar.html' %}
-                <!-- fim Botão adicionar -->
+{#                <!-- Botão adicionar todo verificar como adicionar tarefas e lembretes (ou deixar sem mesmo) -->#}
+{#                {% include 'includes/botao-adicionar.html' %}#}
+{#                <!-- fim Botão adicionar -->#}
 
                 <h1>Meus papéis</h1>
                 <ul class="list-group col-md-8">
@@ -52,9 +52,9 @@
             </div>
         </div>
         <hr>
-        {% with url='papeis.html'  %}
-        {% include 'includes/modals.html' %}
-        {% endwith %}
+{#        {% with url='papeis.html'  %}#}
+{#        {% include 'includes/modals.html' %}#}
+{#        {% endwith %}#}
 
         <!-- Inclui o modal papeis (só pode ser criado em papeis.html) -->
         {% include 'includes/modal-papeis.html' %}
