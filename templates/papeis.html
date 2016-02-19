@@ -35,22 +35,16 @@
 
                 <h1>Meus papéis</h1>
                 <ul class="list-group col-md-8">
-
+                    <li class="list-group-item">
+                        <a href="#" class="text-muted" data-toggle="modal" data-target="#criarPapel"><i class="glyphicon glyphicon-plus"></i> Adicionar novo papel!</a>
+                    </li>
                     <li class="list-group-item" ng-repeat="papel in lista_papeis">
-                        <a href="http://www.+[[ papel.pk ]]" title="[[ papel.nome ]]">[[ papel.nome ]]</a>
+                        <!-- TODO como vou gerenciar as URLs -->
+                        <a href="/papeis/papel/[[ papel.pk ]]/" title="[[ papel.nome ]]">[[ papel.nome ]]</a>
                         <a href="" ng-click="PapelCtrl.delete([[papel.pk]], [[$index]])" onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
                            class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir papel!"><span class="glyphicon glyphicon-remove"></span></a>
                         <a href="" ng-click="PapelCtrl.abrirProjeto([[$index]])" role="button" class="btn btn-info btn-xs pull-right" title="Editar papel!"><span class="glyphicon glyphicon-pencil"></span></a>
-
-{#                        <!-- Excluir editar papel -->#}
-{#                        <form action="{% url 'editar_papel' %}" method="get" role="form">#}
-{#                            <a href="{% url 'papel' papel.id %}" title="{{ papel.nome }}">{{ papel.nome }}</a>#}
-{#                            <a href="{% url 'excluir_papel' papel.id %}" onclick="return confirm('Tem certeza que deseja excluir?');" role="button" class="remove-item btn btn-danger btn-xs pull-right espaco" title="Excluir papel!"><span class="glyphicon glyphicon-remove"></span></a>#}
-{#                            <button type="submit" name="id" value="{{ papel.id }}" class="btn btn-info btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></button>#}
-{#                        </form>#}
-{#                        <!-- fim Excluir editar papel -->#}
                     </li>
-
                         <p ng-show="lista_papeis.length == 0" class="text-muted">Nenhum papel cadastrado. <a href="#" data-toggle="modal" data-target="#criarPapel">Cadastre um papel!</a></p>
 
                 </ul>
@@ -61,6 +55,9 @@
         {% with url='papeis.html'  %}
         {% include 'includes/modals.html' %}
         {% endwith %}
+
+        <!-- Inclui o modal papeis (só pode ser criado em papeis.html) -->
+        {% include 'includes/modal-papeis.html' %}
 
     </div>
 {% endblock corpo %}
