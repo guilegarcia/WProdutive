@@ -10,7 +10,7 @@
                 <em>* itens obrigatórios!</em>
             </div>
             <div class="modal-body">
-                <form id="form_tarefa" action="{% if editar_tarefa %}{% url 'editar_tarefa' %}{% else %}{% url 'criar_tarefa' %}{% endif %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
+                <form id="form_tarefa" action="{% url 'criar_tarefa' %}" class="form-horizontal" method="post" role="form">{% csrf_token %}
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label for="id_titulo_tarefa" class="control-label">Título <abbr

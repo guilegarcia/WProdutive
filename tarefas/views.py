@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from datetime import date, datetime
+import copy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -43,8 +44,8 @@ class TarefaViewSet(viewsets.ModelViewSet):
 
             # Tarefas atrasadas (somente para o dia atual)
             if data.date() == date.today():
-                # Recebe as tarefas atrasadas (anteriores a hoje e com status 0)
-                tarefas_atrasadas = list(Tarefa.objects.filter(usuario=user, status=0, data__lt=data))
+                # Recebe as tarefas atrasadas (anteriores a hoje e com status 0) * cria uma copy para não salvar status=2 no DB
+                tarefas_atrasadas = copy.copy(list(Tarefa.objects.filter(usuario=user, status=0, data__lt=data)))
 
                 if tarefas_atrasadas:
                     for x, tarefa in enumerate(tarefas_atrasadas):
