@@ -98,7 +98,8 @@
                     <tr ng-repeat="tarefa in lista_tarefas">
                         <!-- Tarefas (ng-class insere a class para tarefas concluidas e atrasadas) -->
                         <td>
-                            <input class="checkTarefa big-checkbox" type="checkbox" idTarefa="[[ tarefa.id ]]"/>
+                            <!-- todo remover a class checkTarefa de todas listas de tarefas (criar um import tarefas) -->
+                            <input ng-checked="tarefa.status == 1" ng-click="TarefaCtrl.mudar_status([[tarefa.pk]], [[$index]])" class="big-checkbox" type="checkbox" />
                             <a ng-class="{'text-danger': tarefa.status==2, 'concluida': tarefa.status==1}" href="" data-toggle="modal" data-target="#abrirTarefa" data-id="{{ tarefa.id }}"
                                data-descricao="{{ tarefa.descricao }}"
                                data-titulo="{{ tarefa.titulo }}">[[ tarefa.titulo ]] </a>

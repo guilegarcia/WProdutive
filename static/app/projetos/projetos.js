@@ -5,17 +5,18 @@ angular
     .module('projetos', []) // [] são as dependências
     .controller('ProjetoController', ProjetoController)
     .controller('CriarProjeto', CriarProjeto)
+    .factory('ProjetoFactory', ProjetoFactory)
     .config(csrf)
     .config(interpolateProvider);
 
-function ProjetoController($http, $scope) {
+function ProjetoController($scope, ProjetoFactory) {
     var self = this;
-    $scope.lista_de_projetos = [];
 
-    // ___ LIST ___
-    $http.get('/projetos/api/')
-        .success(function (data) {
-            $scope.lista_de_projetos = data;
+
+    //// LIST
+    ProjetoFactory.list()
+        .success(function (response) {
+            $scope.lista_de_projetos = response;
         })
         .error(function (data, status, headers) {
             alert("Não foi possível listar os projetos");
@@ -24,15 +25,9 @@ function ProjetoController($http, $scope) {
 
     // ___ REMOVE ___
     this.delete = function (id, index) {
-        $http.delete('/projetos/api/' + id + '/')
+        ProjetoFactory.delete(id)
             .success(function (data) {
                 $scope.lista_de_projetos.splice(index, 1);
-                // Adiciona o alerta do boostrap
-                //$('#alerta').after(
-                //    '<div class="alert alert-success alert-dismissable">' +
-                //    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-                //    '<strong>Projeto excluído com sucesso!</strong> ' +
-                //    '</div>');
                 $.alert("Projeto excluído com sucesso!");
             })
             .error(function (data, status, headers) {
@@ -49,7 +44,7 @@ function ProjetoController($http, $scope) {
 
     // ___ UPDATE ___
     this.atualizaProjeto = function () {
-        $http.put('/projetos/api/' + self.projeto.pk + '/', JSON.stringify(self.projeto))
+        ProjetoFactory.update(self.projeto)
             .success(function (data, status, headers) {
                 // Atualiza a lista de projetos
                 $scope.lista_de_projetos[self.index_list] = data;
@@ -58,7 +53,7 @@ function ProjetoController($http, $scope) {
 
             })
             .error(function (data, status, headers) {
-                alert("O correu um erro!" + " Dados: " + JSON.stringify(data) + " Status: " + status + " Headers: " + headers)
+                alert("O correu um erro!")
             });
 
         // Limpa o form do projeto e insere o usuário (usado no ng-init)
@@ -70,28 +65,23 @@ function ProjetoController($http, $scope) {
 }
 
 
-function CriarProjeto($http, $scope) {
+function CriarProjeto(ProjetoFactory, $scope) {
     var self = this;
 
     // todo quando o escopo não tiver a lista_de_projetos (ex: TarefaController) usar if($scope.lista)
     // ___ CREATE ___
     self.projeto = {};
     this.addProjeto = function () {
-        $http.post('/projetos/api/', JSON.stringify(self.projeto))
-            .success(function (data, status, headers) {
+
+        ProjetoFactory.save(self.projeto)
+            .success(function (data) {
                 $scope.lista_de_projetos.push(data);
                 $('#criarProjeto').modal('hide');
-                // Adiciona o alerta do boostrap
-                //$('#alerta').after(
-                //    '<div class="alert alert-success alert-dismissable">' +
-                //    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
-                //    '<strong>Parabéns!</strong> Você criou um novo projeto!' +
-                //    '</div>');
                 $.alert("Parabéns, você criou um novo projeto!");
 
             })
-            .error(function (data, status, headers) {
-                alert("Errado!" + " Dados: " + JSON.stringify(data) + " Status: " + status + " Headers: " + headers)
+            .error(function (data) {
+                $.alert("Ocorreu um erro!", {type: 'danger'});
             });
 
         // Limpa o form do projeto e insere o usuário (usado no ng-init)
@@ -103,6 +93,28 @@ function CriarProjeto($http, $scope) {
 }
 
 
+function ProjetoFactory($http) {
+    /*
+     Faz o CRUD como banco de dados. Cada uma das funções returna success() ou error()
+     */
+    return {
+        list: function () {
+            return $http.get('/projetos/api/');
+        },
+        save: function (objeto) {
+            return $http.post('/projetos/api/', JSON.stringify(objeto));
+        },
+        delete:function(id){
+            return $http.delete('/projetos/api/' + id + '/');
+        },
+        update: function (objeto) {
+            return $http.put('/projetos/api/' + objeto.pk + '/', JSON.stringify(objeto));
+        },
+        get: function (id) {
+            return $http.get('/projetos/api/' + id + '/');
+        }
+    }
+}
 
 // CONFIGURAÇÕES
 function interpolateProvider($interpolateProvider) {
