@@ -25,11 +25,6 @@ function DiaController($scope, $filter) {
         if(prox_ant == 'proximo'){
             data_aux.setDate(dia_atual+2);
         }
-        //if(prox_ant == 'anterior'){
-        //    //data_aux.setDate(dia_atual);
-        //} else {
-        //    data_aux.setDate(dia_atual+2);
-        //}
         $scope.data_atual = $filter('date')(data_aux, 'yyyy-MM-dd')
     };
 

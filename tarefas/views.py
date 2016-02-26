@@ -4,11 +4,14 @@ import copy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView
 from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from tarefas.forms import TarefaForm
@@ -16,14 +19,38 @@ from tarefas.models import Tarefa
 from tarefas.serializers import TarefaSerializer
 
 
-class TarefaViewSet(viewsets.ModelViewSet):
+class TarefaMixin(object):
     """
-    Listar, editar, criar e deletar
-    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    Adiciona as propriedades da Tarefa para serem herdadas pelas classes
     """
     queryset = Tarefa.objects.all()
     serializer_class = TarefaSerializer
     permission_classes = (IsAuthenticated,)
+
+
+class TarefaSemana(TarefaMixin, mixins.ListModelMixin, generics.GenericAPIView):
+    """
+    Retorna a lista de tarefas de toda a semana (inicio e fim)
+    """
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # todo Porque o self.request.user não está funcionando?
+        user = self.request.user
+        data_inicio = datetime.strptime(self.request.query_params.get('inicio', None), '%Y-%m-%d')
+        data_fim = datetime.strptime(self.request.query_params.get('fim', None), '%Y-%m-%d')
+
+        lista_tarefas = Tarefa.objects.filter(Q(data__gte=data_inicio) & Q(data__lte=data_fim),
+                                              usuario=user)  # gte = maior ou igual e lte = menor ou igual
+        return lista_tarefas
+
+
+class TarefaViewSet(TarefaMixin, viewsets.ModelViewSet):
+    """
+    Listar, editar, criar e deletar
+    This viewset automatically provides `list`, `create`, `retrieve`, `update` and `destroy` actions.
+    """
 
     def get_queryset(self):
         """
@@ -111,18 +138,6 @@ def editar_tarefa(request):
             {'titulo': tarefa.titulo, 'descricao': tarefa.descricao, 'data': tarefa.data, 'hora': tarefa.hora,
              'duracao': tarefa.duracao, 'prioridade': tarefa.prioridade,
              'papel': tarefa.papel, 'projeto': tarefa.projeto, 'usuario': tarefa.usuario.id, 'id': tarefa.id})
-
-
-"""
-# Usar https://docs.djangoproject.com/en/1.8/ref/class-based-views/mixins-simple/#django.views.generic.base.TemplateResponseMixin
-class UsuarioUpdate(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
-    model = Tarefa
-    fields = ['titulo', 'descricao', 'data', 'hora', 'duracao', 'prioridade', 'papel', 'projeto', 'usuario']
-    template_name = 'editar-perfil.html'
-    success_message = 'Usuário atualizado com sucesso!'
-
-    # success_url = '/usuarios/editar-perfil/'
-"""
 
 
 @login_required()

@@ -3,17 +3,26 @@
  */
 angular
     .module('tarefas', []) // [] são as dependências
+    .factory('TarefaFactory', TarefaFactory)
+    .controller('TarefasSemana', TarefasSemana)
     .controller('TarefaController', TarefaController)
-    .controller('CriarTarefa', CriarTarefa)
-    .factory('TarefaFactory', TarefaFactory);
+    .controller('CriarTarefa', CriarTarefa);
 
 function TarefaController($http, $scope, $filter, TarefaFactory) {
     var self = this;
     $scope.lista_tarefas = [];
 
+    // todo ___ SEMANA ___ (user $watch data_semana
+    // TarefaSemana.gera_semana($scope.data_semana);
+    //$scope.$watch('data_semana', function () { // mudei o 'ant_prox'
+    //    // ___ LIST ___
+    //    SemanaTarefas.gera_semana($scope.data_semana);
+    //});
+
     // ___ PRÓXIMO DIA E ANTERIOR (dia.html) ___
     $scope.$watch('data_atual', function () { // mudei o 'ant_prox'
         // ___ LIST ___
+        // todo usar TarefaFactory
         $http.get('/tarefas/api/', {params: {data: $scope.data_atual}})
             .success(function (data) {
                 $scope.lista_tarefas = data;
@@ -96,7 +105,6 @@ function TarefaController($http, $scope, $filter, TarefaFactory) {
 
         // Limpa o form do tarefa e insere o usuário (usado no ng-init)
         var form_copia = angular.copy(self.tarefa); // Copia para não gerar referência
-
         self.tarefa = {};
         self.tarefa.usuario = form_copia.usuario;
     };
@@ -104,8 +112,6 @@ function TarefaController($http, $scope, $filter, TarefaFactory) {
 
 function CriarTarefa($http, $scope, $filter) {
     var self = this;
-
-    // todo quando o escopo não tiver a lista_tarefas (ex: TarefaController) usar if($scope.lista)
     // ___ CREATE ___
     self.tarefa = {};
     this.addTarefa = function () {
@@ -151,8 +157,46 @@ function TarefaFactory($http) {
         },
         get: function (id) {
             return $http.get('/tarefas/api/' + id + '/');
+        },
+        list_semana: function (inicio, fim) {
+            return $http.get('/tarefas/semana/api/', {params: {inicio: inicio, fim: fim}})
         }
     }
+}
+
+function TarefasSemana($scope, $filter, TarefaFactory) {
+    var data_inicio, data_fim, data_aux, i;
+
+    $scope.$watch('data_semana', function () { // mudei o 'ant_prox'
+        $scope.tarefas_semana = [[], [], [], [], [], [], []];
+        data_inicio = $filter('date')(new Date($scope.data_semana), 'yyyy-MM-dd');
+        data_fim = new Date(data_inicio);
+        data_fim = data_fim.setDate(data_fim.getDate() + 7);
+        data_fim = $filter('date')(data_fim, 'yyyy-MM-dd');
+
+        // Recebe lista de tarefas da semana
+        TarefaFactory.list_semana(data_inicio, data_fim).success(function (data) {
+            // Cria um for para listar as tarefas de cada dia
+            angular.forEach(data, function (tarefa, x) {
+                // Percorre os 7 dias para cada tarefa: // todo buscar ordenado por data
+                for (i = 0; i < 6; i++) {
+                    if (new Date(tarefa.data).getDay() == i) {
+                        $scope.tarefas_semana[i].push({'tarefa': tarefa});
+                    }
+                }
+            });
+        });
+
+        //// Insere as datas
+        data_aux = new Date(data_inicio);
+        $scope.dias_semana = [];
+        for (i = 0; i < 7; i++) {
+            data_aux.setDate(data_aux.getDate() + 1);
+            $scope.dias_semana.push($filter('date')(data_aux, 'yyyy-MM-dd'));
+            console.log("Data aux semana: " + data_aux + " Scopo: " + $scope.dias_semana[i]);
+        }
+
+    });
 }
 
 

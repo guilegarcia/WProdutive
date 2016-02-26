@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 
-from tarefas.views import TarefaCreate
+from tarefas.views import TarefaCreate, TarefaSemana
 
 __author__ = 'GuiLe Garcia'
 from django.conf.urls import url, include
@@ -10,6 +10,7 @@ from . import views
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'^', views.TarefaViewSet)
+
 
 urlpatterns = [
     url(r'^criar/$', TarefaCreate.as_view(), name='criar_tarefa'),
@@ -21,4 +22,6 @@ urlpatterns = [
 
     # REST
     url(r'^api', include(router.urls)),
+    url(r'^semana/api/$', TarefaSemana.as_view(), name='semana_tarefas'),
+    # url(r'^semana/api/$', TarefaSemana.as_view() , name='tarefas_semana'),
 ]
