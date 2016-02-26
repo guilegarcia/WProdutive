@@ -60,7 +60,6 @@
                         <small>[[ dias_semana[$index] | date: 'dd/MM/yyyy' ]]</small>
                     </h3>
                     <!-- Tarefas -->
-                    [[$index]]
                     <small>Tarefas: <strong>{{ request.session.total_horas_segunda|default_if_none:"00:00:00" }}</strong>
                     </small>
                     <ul class="list-group">
