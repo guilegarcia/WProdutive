@@ -16,13 +16,13 @@ angular
 function SemanaController($scope, $filter) {
     // Pega a data atual e insere no scopo
     var data_aux = new Date();
-    console.log("getDate: ", data_aux.getDate());
-    console.log("getd: ", data_aux.getDay());
-
-    data_aux = data_aux.setDate(data_aux.getDate() - data_aux.getDay()+2); // Segunda
+    //data_aux.toLocaleDateString('pt-BR', {timezone: 'BRT'});
+    //console.log("Locale", data_aux.toLocaleDateString('pt-BR', {weekday: 'long', hour:'numeric', minute:'numeric', timezone: 'BRT'}));
+    // Pega a segunda-feira
+    data_aux = data_aux.setDate(data_aux.getDate() - data_aux.getDay()+2);
     $scope.data_semana = $filter('date')(data_aux, 'yyyy-MM-dd');
 
-
+    // Clica no botão < > (semana.html)
     this.proximo_anterior = function (prox_ant) {
         // Cria uma nova data com a data atual (em string)
         data_aux = new Date($scope.data_semana);
@@ -34,6 +34,7 @@ function SemanaController($scope, $filter) {
         } else {
             data_aux.setDate(dia_atual-7);
         }
+        console.log("Atual, depois de mudar", data_aux);
         $scope.data_semana = $filter('date')(data_aux, 'yyyy-MM-dd')
     };
 

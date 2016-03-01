@@ -60,11 +60,11 @@
                         <small>[[ dias_semana[$index] | date: 'dd/MM/yyyy' ]]</small>
                     </h3>
                     <!-- Tarefas -->
-                    <small>Tarefas: <strong>{{ request.session.total_horas_segunda|default_if_none:"00:00:00" }}</strong>
+                    <small>Tarefas: <strong>[[ total_duracao_dias[$index] || "00:00" ]]</strong>
                     </small>
                     <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="lista in lista_tarefas">
-                            <div class="titulo-tarefa"> [[ lista.tarefa.titulo ]]</div>
+                        <li class="list-group-item" ng-repeat="tarefa in lista_tarefas">
+                            <div class="titulo-tarefa"> [[ tarefa.titulo ]]</div>
                             <a href=""
                                onclick="return confirm('Tem certeza que deseja excluir?');" role="button"
                                class="btn btn-danger btn-xs pull-right espaco" title="Excluir tarefa!"><span
@@ -75,8 +75,6 @@
                                         class="btn btn-info btn-xs pull-right"><span
                                         class="glyphicon glyphicon-pencil"></span></button>
                             </form>
-    {#                        <li ng-show="!lista_tarefas.length">No events</li>#}
-    {#                        <p class="text-muted" ng-show="!lista_tarefas.length">Nenhuma tarefa para segunda!</p>#}
                         </li>
                         <li class="list-group-item" ng-show="!lista_tarefas.length">
                             <p class="text-muted" >Nenhuma tarefa para [[ dias_semana[$index] | date: 'EEEE' ]]!</p>

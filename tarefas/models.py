@@ -22,3 +22,4 @@ class Tarefa(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(Tarefa, self).__init__(*args, **kwargs)
+

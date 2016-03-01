@@ -68,7 +68,6 @@ function ProjetoController($scope, ProjetoFactory) {
 function CriarProjeto(ProjetoFactory, $scope) {
     var self = this;
 
-    // todo quando o escopo não tiver a lista_de_projetos (ex: TarefaController) usar if($scope.lista)
     // ___ CREATE ___
     self.projeto = {};
     this.addProjeto = function () {
