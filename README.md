@@ -1,4 +1,11 @@
 # WProdutive
-"Wprodutive" is a Personal Productivity system, a versatile solution to organize and prioritize personal and professional tasks. Developed using Python 2.7 and Django 1.8, it blends backend efficiency with an intuitive interface, adhering to web usability standards and integrating the elegance and responsiveness of Bootstrap 3.
+"Wprodutive" is a Personal Productivity system, a versatile solution for organizing and prioritizing personal and professional tasks. Developed with a focus on interface efficiency and intuitiveness, the system adheres to web usability standards, resulting in an elegant and responsive experience.
 
-Inspired by GTD and the Triad approach, this system provides a dependable way to approach tasks with method and confidence. Attain the balance between work and personal life, experiencing a new form of productivity. Transform the way you handle tasks and commitments with the effectiveness and style of our Personal Productivity system.
+Inspired by GTD and the Triad approach, this system offers a dependable approach to handling tasks methodically and confidently. Attain the balance between work and personal life by experiencing a new dimension of productivity. Transform the way you manage tasks and commitments, embracing the effectiveness and style of our Personal Productivity system.
+
+## Technologies Used:
+Python 2.7
+Django 1.8
+Django REST framework
+Angular
+Bootstrap 3
