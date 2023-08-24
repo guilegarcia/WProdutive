@@ -4,8 +4,8 @@
 Inspired by GTD and the Triad approach, this system offers a dependable approach to handling tasks methodically and confidently. Attain the balance between work and personal life by experiencing a new dimension of productivity. Transform the way you manage tasks and commitments, embracing the effectiveness and style of our Personal Productivity system.
 
 ## Technologies Used:
-Python 2.7
-Django 1.8
-Django REST framework
-Angular
-Bootstrap 3
+- Python 2.7
+- Django 1.8
+- Django REST framework
+- Angular
+- Bootstrap 3
